@@ -1,0 +1,3 @@
+[submodule "modules/Toe.Scripting"]
+	path = modules/Toe.Scripting
+	url = https://github.com/gleblebedev/Toe.Scripting.git

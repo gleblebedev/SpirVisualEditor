@@ -1,0 +1,113 @@
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Interop;
+
+namespace SpirVisualEditor.Controls
+{
+    /// <summary>
+    /// Creates internal Hwnd to host DirectXComponent within a control in the window.
+    /// </summary>
+    public abstract class Win32HwndControl : HwndHost
+    {
+        protected IntPtr Hwnd { get; private set; }
+        protected bool HwndInitialized { get; private set; }
+
+        private const string WindowClass = "HwndWrapper";
+
+        protected Win32HwndControl()
+        {
+            Loaded += OnLoaded;
+            Unloaded += OnUnloaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            Initialize();
+            HwndInitialized = true;
+
+            Loaded -= OnLoaded;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            Uninitialize();
+            HwndInitialized = false;
+
+            Unloaded -= OnUnloaded;
+
+            Dispose();
+        }
+
+        protected abstract void Initialize();
+        protected abstract void Uninitialize();
+        protected abstract void Resized();
+
+        protected override HandleRef BuildWindowCore(HandleRef hwndParent)
+        {
+            var wndClass = new NativeMethods.WndClassEx();
+            wndClass.cbSize = (uint)Marshal.SizeOf(wndClass);
+            wndClass.hInstance = NativeMethods.GetModuleHandle(null);
+            wndClass.lpfnWndProc = NativeMethods.DefaultWindowProc;
+            wndClass.lpszClassName = WindowClass;
+            wndClass.hCursor = NativeMethods.LoadCursor(IntPtr.Zero, NativeMethods.IDC_ARROW);
+            NativeMethods.RegisterClassEx(ref wndClass);
+
+            Hwnd = NativeMethods.CreateWindowEx(
+                0, WindowClass, "", NativeMethods.WS_CHILD | NativeMethods.WS_VISIBLE,
+                0, 0, (int)Width, (int)Height, hwndParent.Handle, IntPtr.Zero, IntPtr.Zero, 0);
+
+            return new HandleRef(this, Hwnd);
+        }
+
+        protected override void DestroyWindowCore(HandleRef hwnd)
+        {
+            NativeMethods.DestroyWindow(hwnd.Handle);
+            Hwnd = IntPtr.Zero;
+        }
+
+        protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+        {
+            UpdateWindowPos();
+
+            base.OnRenderSizeChanged(sizeInfo);
+
+            if (HwndInitialized)
+                Resized();
+        }
+
+        protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            switch (msg)
+            {
+                case NativeMethods.WM_LBUTTONDOWN:
+                    RaiseMouseEvent(System.Windows.Input.MouseButton.Left, Mouse.MouseDownEvent);
+                    break;
+
+                case NativeMethods.WM_LBUTTONUP:
+                    RaiseMouseEvent(System.Windows.Input.MouseButton.Left, Mouse.MouseUpEvent);
+                    break;
+
+                case NativeMethods.WM_RBUTTONDOWN:
+                    RaiseMouseEvent(System.Windows.Input.MouseButton.Right, Mouse.MouseDownEvent);
+                    break;
+
+                case NativeMethods.WM_RBUTTONUP:
+                    RaiseMouseEvent(System.Windows.Input.MouseButton.Right, Mouse.MouseUpEvent);
+                    break;
+            }
+
+            return base.WndProc(hwnd, msg, wParam, lParam, ref handled);
+        }
+
+        private void RaiseMouseEvent(System.Windows.Input.MouseButton button, RoutedEvent @event)
+        {
+            RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, button)
+            {
+                RoutedEvent = @event,
+                Source = this,
+            });
+        }
+    }
+}

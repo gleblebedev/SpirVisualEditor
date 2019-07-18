@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29020.237
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toe.Scripting.WPF", "..\modules\Toe.Scripting\src\Toe.Scripting.WPF\Toe.Scripting.WPF.csproj", "{1581DFFB-1CC1-40B3-88D2-AA56D475200C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Toe.Scripting", "Toe.Scripting", "{05E6DC66-1C50-4763-8CD9-24841BD77656}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Toe.Scripting.Standard", "..\modules\Toe.Scripting\src\Toe.Scripting.Standard\Toe.Scripting.Standard.csproj", "{3C2D4011-F6CD-422E-8AF4-838F7DCDD17B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Toe.Scripting.ExpressionGraph.Standard", "..\modules\Toe.Scripting\src\Toe.Scripting.ExpressionGraph\Toe.Scripting.ExpressionGraph.Standard.csproj", "{4CCFAA4F-8533-4C30-A9C8-6196E0394B1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpirVisualEditor", "SpirVisualEditor\SpirVisualEditor.csproj", "{3EA4E998-4099-46CF-9FF4-E8587D13903D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpirVGraph", "SpirVGraph\SpirVGraph.csproj", "{A74B2F42-F5E9-41AC-8B09-B98061D5E45C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1581DFFB-1CC1-40B3-88D2-AA56D475200C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1581DFFB-1CC1-40B3-88D2-AA56D475200C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1581DFFB-1CC1-40B3-88D2-AA56D475200C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1581DFFB-1CC1-40B3-88D2-AA56D475200C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C2D4011-F6CD-422E-8AF4-838F7DCDD17B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C2D4011-F6CD-422E-8AF4-838F7DCDD17B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C2D4011-F6CD-422E-8AF4-838F7DCDD17B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C2D4011-F6CD-422E-8AF4-838F7DCDD17B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CCFAA4F-8533-4C30-A9C8-6196E0394B1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CCFAA4F-8533-4C30-A9C8-6196E0394B1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CCFAA4F-8533-4C30-A9C8-6196E0394B1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CCFAA4F-8533-4C30-A9C8-6196E0394B1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EA4E998-4099-46CF-9FF4-E8587D13903D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EA4E998-4099-46CF-9FF4-E8587D13903D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EA4E998-4099-46CF-9FF4-E8587D13903D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EA4E998-4099-46CF-9FF4-E8587D13903D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A74B2F42-F5E9-41AC-8B09-B98061D5E45C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A74B2F42-F5E9-41AC-8B09-B98061D5E45C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A74B2F42-F5E9-41AC-8B09-B98061D5E45C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A74B2F42-F5E9-41AC-8B09-B98061D5E45C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1581DFFB-1CC1-40B3-88D2-AA56D475200C} = {05E6DC66-1C50-4763-8CD9-24841BD77656}
+		{3C2D4011-F6CD-422E-8AF4-838F7DCDD17B} = {05E6DC66-1C50-4763-8CD9-24841BD77656}
+		{4CCFAA4F-8533-4C30-A9C8-6196E0394B1E} = {05E6DC66-1C50-4763-8CD9-24841BD77656}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AD498D84-9A30-453B-82F7-35A83D7ADB43}
+	EndGlobalSection
+EndGlobal
