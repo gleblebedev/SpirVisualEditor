@@ -1,0 +1,55 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+using System;
+
+namespace SpirVGraph.Spv
+{
+    public class <#= Name #> : ValueEnum
+    {
+		[Flags]
+        public enum Enumerant
+        {
+<#
+		foreach (var kv in Values)
+		{
+			foreach (var capability in kv.capabilities ?? EmptyReadOnlyList<string>.Instance)
+			{
+#>
+            [Capability(Capability.Enumerant.<#= capability #>)]
+<#
+			}
+#>
+            <#= GetId(kv.enumerant) #> = <#= kv.value #>,
+<#
+		}
+#>
+		}
+
+        public <#= Name #>(Enumerant value)
+        {
+            Value = value;
+        }
+
+        public Enumerant Value { get; }
+
+        public static <#= Name #> Parse(WordReader reader, uint wordCount)
+        {
+            var id = (Enumerant) reader.ReadWord();
+			return new <#= Name #>(id);
+        }
+
+        public static <#= Name #> ParseOptional(WordReader reader, uint wordCount)
+        {
+			if (wordCount == 0) return null;
+            return Parse(reader, wordCount);
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
+    }
+}

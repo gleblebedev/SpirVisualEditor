@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using MouseButton = Veldrid.MouseButton;
 
 namespace SpirVisualEditor.Controls
 {
@@ -28,8 +23,7 @@ namespace SpirVisualEditor.Controls
         {
             public uint cbSize;
             public uint style;
-            [MarshalAs(UnmanagedType.FunctionPtr)]
-            public WndProc lpfnWndProc;
+            [MarshalAs(UnmanagedType.FunctionPtr)] public WndProc lpfnWndProc;
             public int cbClsExtra;
             public int cbWndExtra;
             public IntPtr hInstance;

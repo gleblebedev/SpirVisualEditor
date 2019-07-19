@@ -1,0 +1,48 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+using System.Collections.Generic;
+using SpirVGraph.Spv;
+
+namespace SpirVGraph.Instructions
+{
+    public class <#= opname #>: Instruction
+    {
+        public <#= opname #>()
+        {
+        }
+
+        public override Op OpCode { get { return Op.<#= opname #>; } }
+
+<#
+	foreach(var op in operands)
+	{
+#>
+		public <#=GetOperandType(op)#> <#=GetOperandName(op)#> { get; set; }
+<#
+	}
+#>
+
+        public override void Parse(WordReader reader, uint wordCount)
+        {
+			var end = reader.Position+wordCount-1;
+<#
+	foreach(var op in operands)
+	{
+#>
+		    <#=GetOperandName(op)#> = <#=GetOperandParser(op)#>(reader, end-reader.Position);
+<#
+	}
+#>
+        }
+
+        public override string ToString()
+        {
+<#
+WriteLine("            return $\"{OpCode} "+string.Join(" ", operands.Select(_=>"{"+GetOperandName(_)+"}"))+"\";");
+#>
+        }
+    }
+}

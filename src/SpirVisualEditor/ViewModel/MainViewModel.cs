@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Win32;
-using Newtonsoft.Json;
 using SpirVGraph;
-using Toe.Scripting;
 using Toe.Scripting.WPF;
 using Toe.Scripting.WPF.ViewModels;
 
@@ -23,6 +17,20 @@ namespace SpirVisualEditor.ViewModel
             OpenCommand = new ScriptingCommand(Open);
         }
 
+        public string FileName
+        {
+            get => _fileName;
+            set => RaiseAndSetIfChanged(ref _fileName, value);
+        }
+
+        public ScriptingCommand OpenCommand { get; set; }
+
+        public ScriptViewModel ScriptViewModel { get; set; }
+
+        public void Dispose()
+        {
+        }
+
         private void Open()
         {
             var ofd = new OpenFileDialog();
@@ -34,23 +42,6 @@ namespace SpirVisualEditor.ViewModel
                 ScriptViewModel.ResetUndoStack();
                 ScriptViewModel.HasUnsavedChanged = false;
             }
-        }
-
-        public string FileName
-        {
-            get { return _fileName; }
-            set
-            {
-                RaiseAndSetIfChanged(ref _fileName, value);
-            }
-        }
-
-        public ScriptingCommand OpenCommand { get; set; }
-
-        public ScriptViewModel ScriptViewModel { get; set; }
-
-        public void Dispose()
-        {
         }
     }
 }

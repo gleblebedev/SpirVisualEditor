@@ -7,13 +7,10 @@ using System.Windows.Interop;
 namespace SpirVisualEditor.Controls
 {
     /// <summary>
-    /// Creates internal Hwnd to host DirectXComponent within a control in the window.
+    ///     Creates internal Hwnd to host DirectXComponent within a control in the window.
     /// </summary>
     public abstract class Win32HwndControl : HwndHost
     {
-        protected IntPtr Hwnd { get; private set; }
-        protected bool HwndInitialized { get; private set; }
-
         private const string WindowClass = "HwndWrapper";
 
         protected Win32HwndControl()
@@ -21,6 +18,9 @@ namespace SpirVisualEditor.Controls
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
         }
+
+        protected IntPtr Hwnd { get; private set; }
+        protected bool HwndInitialized { get; private set; }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
@@ -47,7 +47,7 @@ namespace SpirVisualEditor.Controls
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
             var wndClass = new NativeMethods.WndClassEx();
-            wndClass.cbSize = (uint)Marshal.SizeOf(wndClass);
+            wndClass.cbSize = (uint) Marshal.SizeOf(wndClass);
             wndClass.hInstance = NativeMethods.GetModuleHandle(null);
             wndClass.lpfnWndProc = NativeMethods.DefaultWindowProc;
             wndClass.lpszClassName = WindowClass;
@@ -56,7 +56,7 @@ namespace SpirVisualEditor.Controls
 
             Hwnd = NativeMethods.CreateWindowEx(
                 0, WindowClass, "", NativeMethods.WS_CHILD | NativeMethods.WS_VISIBLE,
-                0, 0, (int)Width, (int)Height, hwndParent.Handle, IntPtr.Zero, IntPtr.Zero, 0);
+                0, 0, (int) Width, (int) Height, hwndParent.Handle, IntPtr.Zero, IntPtr.Zero, 0);
 
             return new HandleRef(this, Hwnd);
         }
@@ -82,31 +82,31 @@ namespace SpirVisualEditor.Controls
             switch (msg)
             {
                 case NativeMethods.WM_LBUTTONDOWN:
-                    RaiseMouseEvent(System.Windows.Input.MouseButton.Left, Mouse.MouseDownEvent);
+                    RaiseMouseEvent(MouseButton.Left, Mouse.MouseDownEvent);
                     break;
 
                 case NativeMethods.WM_LBUTTONUP:
-                    RaiseMouseEvent(System.Windows.Input.MouseButton.Left, Mouse.MouseUpEvent);
+                    RaiseMouseEvent(MouseButton.Left, Mouse.MouseUpEvent);
                     break;
 
                 case NativeMethods.WM_RBUTTONDOWN:
-                    RaiseMouseEvent(System.Windows.Input.MouseButton.Right, Mouse.MouseDownEvent);
+                    RaiseMouseEvent(MouseButton.Right, Mouse.MouseDownEvent);
                     break;
 
                 case NativeMethods.WM_RBUTTONUP:
-                    RaiseMouseEvent(System.Windows.Input.MouseButton.Right, Mouse.MouseUpEvent);
+                    RaiseMouseEvent(MouseButton.Right, Mouse.MouseUpEvent);
                     break;
             }
 
             return base.WndProc(hwnd, msg, wParam, lParam, ref handled);
         }
 
-        private void RaiseMouseEvent(System.Windows.Input.MouseButton button, RoutedEvent @event)
+        private void RaiseMouseEvent(MouseButton button, RoutedEvent @event)
         {
             RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, button)
             {
                 RoutedEvent = @event,
-                Source = this,
+                Source = this
             });
         }
     }

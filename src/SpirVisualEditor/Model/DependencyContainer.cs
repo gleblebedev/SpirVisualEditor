@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using Autofac.Core;
 using SpirVisualEditor.ViewModel;
 using Toe.Scripting.WPF.ViewModels;
@@ -24,6 +19,7 @@ namespace SpirVisualEditor.Model
 
             _container = builder.Build();
         }
+
         public T Resolve<T>()
         {
             return _container.Resolve<T>();
@@ -40,13 +36,12 @@ namespace SpirVisualEditor.Model
             if (!_container.TryResolveService(new KeyedService(name, typeof(T)), parameters,
                 out res))
             {
-                service = default(T);
+                service = default;
                 return false;
             }
 
-            service = (T)res;
+            service = (T) res;
             return true;
         }
-
     }
 }
