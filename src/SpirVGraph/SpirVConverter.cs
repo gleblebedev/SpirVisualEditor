@@ -1,4 +1,5 @@
 ﻿using System;
+using SpirVGraph.NodeFactories;
 using Toe.Scripting;
 
 namespace SpirVGraph
@@ -7,18 +8,7 @@ namespace SpirVGraph
     {
         public static Script Deserialize(byte[] spirvBytes)
         {
-            var shader = Shader.Parse(spirvBytes);
-            var script = new Script();
-            foreach (var instruction in shader.Instructions)
-            {
-                uint id;
-                if (instruction.TryGetResultId(out id))
-                {
-
-                }
-            }
-
-            return script;
+            return new Deserializer(Shader.Parse(spirvBytes), new SpvNodeRegistry()).Deserialize();
         }
 
         public static byte[] Serialize(Script script)

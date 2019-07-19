@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using Autofac.Core;
+using SpirVGraph.NodeFactories;
 using SpirVisualEditor.ViewModel;
+using Toe.Scripting;
 using Toe.Scripting.WPF.ViewModels;
 
 namespace SpirVisualEditor.Model
@@ -14,6 +16,7 @@ namespace SpirVisualEditor.Model
             var builder = new ContainerBuilder();
             builder.RegisterInstance(this).AsSelf().SingleInstance();
 
+            builder.RegisterType<SpvNodeRegistry>().AsSelf().As<INodeRegistry>().SingleInstance();
             builder.RegisterType<MainViewModel>().AsSelf().SingleInstance();
             builder.RegisterType<ScriptViewModel>().AsSelf().SingleInstance();
 

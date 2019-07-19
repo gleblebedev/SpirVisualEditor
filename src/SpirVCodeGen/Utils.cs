@@ -1,4 +1,5 @@
 ﻿using System;
+using SpirVCodeGen.Model;
 
 namespace SpirVCodeGen
 {
@@ -22,8 +23,37 @@ namespace SpirVCodeGen
 
             }
         }
+        public static string GetOperandName(Operand operand)
+        {
+            if (operand.name == null)
+                return operand.kind;
+            return Utils.GetPropertyName(operand.name);
+        }
+        public static string GetOperandParser(Operand operand)
+        {
+            if (operand.quantifier == "?")
+                return "Spv." + operand.kind + ".ParseOptional";
+            if (operand.quantifier == "*")
+                return "Spv." + operand.kind + ".ParseCollection";
+            return "Spv." + operand.kind + ".Parse";
+        }
 
+        public static string GetOperandType(Operand operand)
+        {
+            var type = Utils.GetTypeName(operand.kind);
+            if (operand.quantifier == "?")
+            {
+                if (type == "uint")
+                    return "uint?";
+                return type;
+            }
+            if (operand.quantifier == "*")
+            {
+                return "IList<" + type + ">";
+            }
 
+            return type;
+        }
         public static bool IsBitEnum(string kind)
         {
             switch (kind)

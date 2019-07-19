@@ -46,6 +46,10 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>LiteralTemplate.cs</LastGenOutput>
     </None>
+    <None Update="NodeFactoryTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>NodeFactoryTemplate.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -87,6 +91,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>LiteralTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="NodeFactoryTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NodeFactoryTemplate.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

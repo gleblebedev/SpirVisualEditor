@@ -20,7 +20,7 @@ namespace SpirVGraph.Instructions
 	foreach(var op in operands)
 	{
 #>
-		public <#=GetOperandType(op)#> <#=GetOperandName(op)#> { get; set; }
+		public <#=Utils.GetOperandType(op)#> <#=Utils.GetOperandName(op)#> { get; set; }
 <#
 	}
 #>
@@ -52,7 +52,7 @@ namespace SpirVGraph.Instructions
 	foreach(var op in operands)
 	{
 #>
-		    <#=GetOperandName(op)#> = <#=GetOperandParser(op)#>(reader, end-reader.Position);
+		    <#=Utils.GetOperandName(op)#> = <#=Utils.GetOperandParser(op)#>(reader, end-reader.Position);
 <#
 	}
 #>
@@ -65,15 +65,15 @@ var idResult = operands.FirstOrDefault(_=>_.kind == "IdResult");
 var idResultType = operands.FirstOrDefault(_=>_.kind == "IdResultType");
 if (idResultType != null && idResult != null)
 {
-	WriteLine("            return $\"{IdResultType} {IdResult} = {OpCode} "+string.Join(" ", operands.Where(_=>_!=idResult && _!=idResultType).Select(_=>"{"+GetOperandName(_)+"}"))+"\";");
+	WriteLine("            return $\"{IdResultType} {IdResult} = {OpCode} "+string.Join(" ", operands.Where(_=>_!=idResult && _!=idResultType).Select(_=>"{"+Utils.GetOperandName(_)+"}"))+"\";");
 }
 else if (idResult != null)
 {
-	WriteLine("            return $\"{IdResult} = {OpCode} "+string.Join(" ", operands.Where(_=>_!=idResult).Select(_=>"{"+GetOperandName(_)+"}"))+"\";");
+	WriteLine("            return $\"{IdResult} = {OpCode} "+string.Join(" ", operands.Where(_=>_!=idResult).Select(_=>"{"+Utils.GetOperandName(_)+"}"))+"\";");
 }
 else
 {
-	WriteLine("            return $\"{OpCode} "+string.Join(" ", operands.Select(_=>"{"+GetOperandName(_)+"}"))+"\";");
+	WriteLine("            return $\"{OpCode} "+string.Join(" ", operands.Select(_=>"{"+Utils.GetOperandName(_)+"}"))+"\";");
 }
 #>
         }

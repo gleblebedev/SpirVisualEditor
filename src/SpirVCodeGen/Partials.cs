@@ -174,10 +174,23 @@ namespace SpirVCodeGen
             set => _instruction.opname = value;
         }
 
-        public int opcode
+        public IReadOnlyList<Operand> operands
         {
-            get => _instruction.opcode;
-            set => _instruction.opcode = value;
+            get => _instruction.operands ?? EmptyReadOnlyList<Operand>.Instance;
+        }
+
+        public InstructionTemplate(Instruction instruction)
+        {
+            _instruction = instruction;
+        }
+    }
+    public partial class NodeFactoryTemplate : NodeFactoryTemplateBase
+    {
+        private readonly Instruction _instruction;
+        public string opname
+        {
+            get => _instruction.opname;
+            set => _instruction.opname = value;
         }
 
         public IReadOnlyList<Operand> operands
@@ -185,52 +198,9 @@ namespace SpirVCodeGen
             get => _instruction.operands ?? EmptyReadOnlyList<Operand>.Instance;
         }
 
-        public List<string> capabilities
-        {
-            get => _instruction.capabilities;
-            set => _instruction.capabilities = value;
-        }
-
-        public List<string> extensions
-        {
-            get => _instruction.extensions;
-            set => _instruction.extensions = value;
-        }
-
-        public InstructionTemplate(Instruction instruction)
+        public NodeFactoryTemplate(Instruction instruction)
         {
             _instruction = instruction;
-        }
-
-        public string GetOperandType(Operand operand)
-        {
-            var type = Utils.GetTypeName(operand.kind);
-            if (operand.quantifier == "?")
-            {
-                if (type == "uint")
-                    return "uint?";
-                return type;
-            }
-            if (operand.quantifier == "*")
-            {
-                return "IList<"+type+">";
-            }
-
-            return type;
-        }
-        public string GetOperandName(Operand operand)
-        {
-            if (operand.name == null)
-                return operand.kind;
-            return Utils.GetPropertyName(operand.name);
-        }
-        public string GetOperandParser(Operand operand)
-        {
-            if (operand.quantifier == "?")
-                return "Spv." + operand.kind + ".ParseOptional";
-            if (operand.quantifier == "*")
-                return "Spv." + operand.kind + ".ParseCollection";
-            return "Spv." + operand.kind + ".Parse";
         }
     }
 }

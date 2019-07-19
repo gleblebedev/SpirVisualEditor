@@ -81,6 +81,25 @@ namespace SpirVCodeGen
         }
 
         [Test]
+        public void GetAllInstructions()
+        {
+            foreach (var instruction in GetInstructions())
+            {
+                var refs = (instruction.operands ?? EmptyReadOnlyList<Operand>.Instance).Where(_ => _.kind == "IdRef" && string.IsNullOrWhiteSpace(_.quantifier)).ToList();
+                if (refs.Count > 0)
+                {
+                    Console.WriteLine("                    case Op."+ instruction.opname+ ": {");
+                    Console.WriteLine("                        var i = (" + instruction.opname + ") instruction;");
+                    foreach (var operand in refs)
+                    {
+                        Console.WriteLine("                        Connect(i."+Utils.GetOperandName(operand) +", node, \"" + Utils.GetOperandName(operand) + "\");");
+                    }
+                    Console.WriteLine("                        break; }");
+                }
+            }
+        }
+
+        [Test]
         public void GetAllFlags()
         {
             foreach (var category in GetOperandKinds().ToLookup(_ => _.category))
@@ -107,6 +126,19 @@ namespace SpirVCodeGen
             var path = Path.Combine(Path.GetDirectoryName(this.GetType().Assembly.Location),
                 @"..\..\..\..\SpirVGraph\Instructions\" + instruction.opname + ".cs");
             var text = new InstructionTemplate(instruction).TransformText();
+            using (var file = File.CreateText(path))
+            {
+                file.Write(text);
+            }
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetInstructions))]
+        public void GenerateInstructionNodeFactoryFile(SpirVCodeGen.Model.Instruction instruction)
+        {
+            var path = Path.Combine(Path.GetDirectoryName(this.GetType().Assembly.Location),
+                @"..\..\..\..\SpirVGraph\NodeFactories\" + instruction.opname + "NodeFactory.cs");
+            var text = new NodeFactoryTemplate(instruction).TransformText();
             using (var file = File.CreateText(path))
             {
                 file.Write(text);

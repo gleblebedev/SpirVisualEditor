@@ -63,14 +63,14 @@ namespace SpirVCodeGen
             this.Write("\t\tpublic ");
             
             #line 23 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(GetOperandType(op)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Utils.GetOperandType(op)));
             
             #line default
             #line hidden
             this.Write(" ");
             
             #line 23 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(GetOperandName(op)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Utils.GetOperandName(op)));
             
             #line default
             #line hidden
@@ -127,14 +127,14 @@ namespace SpirVCodeGen
             this.Write("\t\t    ");
             
             #line 55 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(GetOperandName(op)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Utils.GetOperandName(op)));
             
             #line default
             #line hidden
             this.Write(" = ");
             
             #line 55 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(GetOperandParser(op)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Utils.GetOperandParser(op)));
             
             #line default
             #line hidden
@@ -155,15 +155,15 @@ var idResult = operands.FirstOrDefault(_=>_.kind == "IdResult");
 var idResultType = operands.FirstOrDefault(_=>_.kind == "IdResultType");
 if (idResultType != null && idResult != null)
 {
-	WriteLine("            return $\"{IdResultType} {IdResult} = {OpCode} "+string.Join(" ", operands.Where(_=>_!=idResult && _!=idResultType).Select(_=>"{"+GetOperandName(_)+"}"))+"\";");
+	WriteLine("            return $\"{IdResultType} {IdResult} = {OpCode} "+string.Join(" ", operands.Where(_=>_!=idResult && _!=idResultType).Select(_=>"{"+Utils.GetOperandName(_)+"}"))+"\";");
 }
 else if (idResult != null)
 {
-	WriteLine("            return $\"{IdResult} = {OpCode} "+string.Join(" ", operands.Where(_=>_!=idResult).Select(_=>"{"+GetOperandName(_)+"}"))+"\";");
+	WriteLine("            return $\"{IdResult} = {OpCode} "+string.Join(" ", operands.Where(_=>_!=idResult).Select(_=>"{"+Utils.GetOperandName(_)+"}"))+"\";");
 }
 else
 {
-	WriteLine("            return $\"{OpCode} "+string.Join(" ", operands.Select(_=>"{"+GetOperandName(_)+"}"))+"\";");
+	WriteLine("            return $\"{OpCode} "+string.Join(" ", operands.Select(_=>"{"+Utils.GetOperandName(_)+"}"))+"\";");
 }
 
             
