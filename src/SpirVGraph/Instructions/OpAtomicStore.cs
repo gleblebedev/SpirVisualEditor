@@ -16,6 +16,12 @@ namespace SpirVGraph.Instructions
 		public uint Semantics { get; set; }
 		public uint Value { get; set; }
 
+        public override bool TryGetResultId(out uint id)
+        {
+			id = 0;
+            return false;
+        }
+
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;

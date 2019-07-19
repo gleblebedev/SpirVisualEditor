@@ -17,6 +17,12 @@ namespace SpirVGraph.Instructions
 		public uint LocalWorkSize { get; set; }
 		public uint GlobalWorkOffset { get; set; }
 
+        public override bool TryGetResultId(out uint id)
+        {
+			id = IdResult;
+            return true;
+        }
+
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
@@ -29,7 +35,7 @@ namespace SpirVGraph.Instructions
 
         public override string ToString()
         {
-            return $"{OpCode} {IdResultType} {IdResult} {GlobalWorkSize} {LocalWorkSize} {GlobalWorkOffset}";
+            return $"{IdResultType} {IdResult} = {OpCode} {GlobalWorkSize} {LocalWorkSize} {GlobalWorkOffset}";
         }
     }
 }

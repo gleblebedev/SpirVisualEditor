@@ -25,6 +25,26 @@ namespace SpirVGraph.Instructions
 	}
 #>
 
+        public override bool TryGetResultId(out uint id)
+        {
+<#
+	if(operands.Any(_=>_.kind == "IdResult"))
+	{
+#>
+			id = IdResult;
+            return true;
+<#
+	}
+	else
+	{
+#>
+			id = 0;
+            return false;
+<#
+	}
+#>
+        }
+
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
@@ -41,7 +61,20 @@ namespace SpirVGraph.Instructions
         public override string ToString()
         {
 <#
-WriteLine("            return $\"{OpCode} "+string.Join(" ", operands.Select(_=>"{"+GetOperandName(_)+"}"))+"\";");
+var idResult = operands.FirstOrDefault(_=>_.kind == "IdResult");
+var idResultType = operands.FirstOrDefault(_=>_.kind == "IdResultType");
+if (idResultType != null && idResult != null)
+{
+	WriteLine("            return $\"{IdResultType} {IdResult} = {OpCode} "+string.Join(" ", operands.Where(_=>_!=idResult && _!=idResultType).Select(_=>"{"+GetOperandName(_)+"}"))+"\";");
+}
+else if (idResult != null)
+{
+	WriteLine("            return $\"{IdResult} = {OpCode} "+string.Join(" ", operands.Where(_=>_!=idResult).Select(_=>"{"+GetOperandName(_)+"}"))+"\";");
+}
+else
+{
+	WriteLine("            return $\"{OpCode} "+string.Join(" ", operands.Select(_=>"{"+GetOperandName(_)+"}"))+"\";");
+}
 #>
         }
     }

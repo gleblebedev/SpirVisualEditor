@@ -5,6 +5,12 @@ namespace SpirVGraph.Instructions
 {
     public abstract  class Instruction
     {
+        public virtual bool TryGetResultId(out uint id)
+        {
+            id = 0;
+            return false;
+        }
+
         public abstract Op OpCode { get; }
 
         public virtual void Parse(WordReader reader, uint wordCount)

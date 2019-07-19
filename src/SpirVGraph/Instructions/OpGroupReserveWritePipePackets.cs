@@ -19,6 +19,12 @@ namespace SpirVGraph.Instructions
 		public uint PacketSize { get; set; }
 		public uint PacketAlignment { get; set; }
 
+        public override bool TryGetResultId(out uint id)
+        {
+			id = IdResult;
+            return true;
+        }
+
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
@@ -33,7 +39,7 @@ namespace SpirVGraph.Instructions
 
         public override string ToString()
         {
-            return $"{OpCode} {IdResultType} {IdResult} {Execution} {Pipe} {NumPackets} {PacketSize} {PacketAlignment}";
+            return $"{IdResultType} {IdResult} = {OpCode} {Execution} {Pipe} {NumPackets} {PacketSize} {PacketAlignment}";
         }
     }
 }

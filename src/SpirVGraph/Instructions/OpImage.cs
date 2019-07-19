@@ -15,6 +15,12 @@ namespace SpirVGraph.Instructions
 		public uint IdResult { get; set; }
 		public uint SampledImage { get; set; }
 
+        public override bool TryGetResultId(out uint id)
+        {
+			id = IdResult;
+            return true;
+        }
+
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
@@ -25,7 +31,7 @@ namespace SpirVGraph.Instructions
 
         public override string ToString()
         {
-            return $"{OpCode} {IdResultType} {IdResult} {SampledImage}";
+            return $"{IdResultType} {IdResult} = {OpCode} {SampledImage}";
         }
     }
 }

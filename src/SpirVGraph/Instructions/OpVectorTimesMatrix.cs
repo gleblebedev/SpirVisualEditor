@@ -16,6 +16,12 @@ namespace SpirVGraph.Instructions
 		public uint Vector { get; set; }
 		public uint Matrix { get; set; }
 
+        public override bool TryGetResultId(out uint id)
+        {
+			id = IdResult;
+            return true;
+        }
+
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
@@ -27,7 +33,7 @@ namespace SpirVGraph.Instructions
 
         public override string ToString()
         {
-            return $"{OpCode} {IdResultType} {IdResult} {Vector} {Matrix}";
+            return $"{IdResultType} {IdResult} = {OpCode} {Vector} {Matrix}";
         }
     }
 }

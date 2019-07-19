@@ -15,6 +15,12 @@ namespace SpirVGraph.Instructions
 		public uint Width { get; set; }
 		public uint Signedness { get; set; }
 
+        public override bool TryGetResultId(out uint id)
+        {
+			id = IdResult;
+            return true;
+        }
+
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
@@ -25,7 +31,7 @@ namespace SpirVGraph.Instructions
 
         public override string ToString()
         {
-            return $"{OpCode} {IdResult} {Width} {Signedness}";
+            return $"{IdResult} = {OpCode} {Width} {Signedness}";
         }
     }
 }

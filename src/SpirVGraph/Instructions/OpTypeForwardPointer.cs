@@ -14,6 +14,12 @@ namespace SpirVGraph.Instructions
 		public uint PointerType { get; set; }
 		public StorageClass StorageClass { get; set; }
 
+        public override bool TryGetResultId(out uint id)
+        {
+			id = 0;
+            return false;
+        }
+
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;

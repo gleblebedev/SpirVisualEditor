@@ -16,6 +16,12 @@ namespace SpirVGraph.Instructions
 		public StorageClass StorageClass { get; set; }
 		public uint? Initializer { get; set; }
 
+        public override bool TryGetResultId(out uint id)
+        {
+			id = IdResult;
+            return true;
+        }
+
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
@@ -27,7 +33,7 @@ namespace SpirVGraph.Instructions
 
         public override string ToString()
         {
-            return $"{OpCode} {IdResultType} {IdResult} {StorageClass} {Initializer}";
+            return $"{IdResultType} {IdResult} = {OpCode} {StorageClass} {Initializer}";
         }
     }
 }

@@ -20,6 +20,12 @@ namespace SpirVGraph.Instructions
 		public uint Value { get; set; }
 		public uint Comparator { get; set; }
 
+        public override bool TryGetResultId(out uint id)
+        {
+			id = IdResult;
+            return true;
+        }
+
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
@@ -35,7 +41,7 @@ namespace SpirVGraph.Instructions
 
         public override string ToString()
         {
-            return $"{OpCode} {IdResultType} {IdResult} {Pointer} {Scope} {Equal} {Unequal} {Value} {Comparator}";
+            return $"{IdResultType} {IdResult} = {OpCode} {Pointer} {Scope} {Equal} {Unequal} {Value} {Comparator}";
         }
     }
 }
