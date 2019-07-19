@@ -25,10 +25,10 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    IdResultType = ParseWord(reader, end-reader.Position);
-		    IdResult = ParseWord(reader, end-reader.Position);
-		    Image = ParseWord(reader, end-reader.Position);
-		    LevelofDetail = ParseWord(reader, end-reader.Position);
+		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
+		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+		    Image = Spv.IdRef.Parse(reader, end-reader.Position);
+		    LevelofDetail = Spv.IdRef.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

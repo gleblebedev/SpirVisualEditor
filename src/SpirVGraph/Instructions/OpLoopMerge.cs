@@ -13,7 +13,7 @@ namespace SpirVGraph.Instructions
 
 		public uint MergeBlock { get; set; }
 		public uint ContinueTarget { get; set; }
-		public LoopControl LoopControl { get; set; }
+		public Spv.LoopControl LoopControl { get; set; }
 
         public override bool TryGetResultId(out uint id)
         {
@@ -24,9 +24,9 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    MergeBlock = ParseWord(reader, end-reader.Position);
-		    ContinueTarget = ParseWord(reader, end-reader.Position);
-		    LoopControl = LoopControl.Parse(reader, end-reader.Position);
+		    MergeBlock = Spv.IdRef.Parse(reader, end-reader.Position);
+		    ContinueTarget = Spv.IdRef.Parse(reader, end-reader.Position);
+		    LoopControl = Spv.LoopControl.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

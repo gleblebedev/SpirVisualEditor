@@ -13,7 +13,7 @@ namespace SpirVGraph.Instructions
 
 		public uint Target { get; set; }
 		public uint Source { get; set; }
-		public MemoryAccess MemoryAccess { get; set; }
+		public Spv.MemoryAccess MemoryAccess { get; set; }
 
         public override bool TryGetResultId(out uint id)
         {
@@ -24,9 +24,9 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    Target = ParseWord(reader, end-reader.Position);
-		    Source = ParseWord(reader, end-reader.Position);
-		    MemoryAccess = MemoryAccess.ParseOptional(reader, end-reader.Position);
+		    Target = Spv.IdRef.Parse(reader, end-reader.Position);
+		    Source = Spv.IdRef.Parse(reader, end-reader.Position);
+		    MemoryAccess = Spv.MemoryAccess.ParseOptional(reader, end-reader.Position);
         }
 
         public override string ToString()

@@ -23,8 +23,8 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    Event = ParseWord(reader, end-reader.Position);
-		    Status = ParseWord(reader, end-reader.Position);
+		    Event = Spv.IdRef.Parse(reader, end-reader.Position);
+		    Status = Spv.IdRef.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

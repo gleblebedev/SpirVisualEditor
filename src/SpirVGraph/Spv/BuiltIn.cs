@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace SpirVGraph.Spv
 {
     public class BuiltIn : ValueEnum
@@ -147,6 +149,17 @@ namespace SpirVGraph.Spv
         {
 			if (wordCount == 0) return null;
             return Parse(reader, wordCount);
+        }
+
+        public static IList<BuiltIn> ParseCollection(WordReader reader, uint wordCount)
+        {
+            var end = reader.Position + wordCount;
+            var res = new List<BuiltIn>();
+            while (reader.Position < end)
+            {
+                res.Add(Parse(reader, end-reader.Position));
+            }
+            return res;
         }
 
         public override string ToString()

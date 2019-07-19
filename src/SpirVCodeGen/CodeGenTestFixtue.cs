@@ -42,34 +42,38 @@ namespace SpirVCodeGen
         [TestCaseSource(nameof(GetOperandKinds))]
         public void GenerateOperandKindFile(SpirVCodeGen.Model.OperandKind operandKind)
         {
+            var path = Path.Combine(Path.GetDirectoryName(this.GetType().Assembly.Location),
+                @"..\..\..\..\SpirVGraph\Spv\" + operandKind.kind + ".cs");
+            string text = null;
             if (operandKind.category == "ValueEnum")
             {
-                GenerateEnumFile(operandKind);
-                return;
+                text = new EnumTemplate(operandKind).TransformText();
             }
-            if (operandKind.category == "BitEnum")
+            else if (operandKind.category == "BitEnum")
             {
-                GenerateBitEnumFile(operandKind);
-                return;
+                text = new FlagTemplate(operandKind).TransformText();
             }
-            Assert.Ignore(operandKind.category+" not implemented yet.");
-        }
+            else if (operandKind.category == "Id")
+            {
+                text = new IdTemplate(operandKind).TransformText();
+            }
+            else if (operandKind.category == "Composite")
+            {
+                text = new CompositeTemplate(operandKind).TransformText();
+            }
+            //else if (operandKind.category == "Literal")
+            //{
+            //    text = new LiteralTemplate(operandKind).TransformText();
+            //}
+            else
+            {
+                Assert.Ignore(operandKind.category + " not implemented yet.");
+            }
 
-        public void GenerateEnumFile(OperandKind enumeration)
-        {
-            var text = new EnumTemplate(enumeration).TransformText();
-            var path = Path.Combine(Path.GetDirectoryName(this.GetType().Assembly.Location),
-                @"..\..\..\..\SpirVGraph\Spv\" + enumeration.kind + ".cs");
-            using (var file = File.CreateText(path))
+            if (text == null)
             {
-                file.Write(text);
+                Assert.Ignore(operandKind.category + " not implemented yet.");
             }
-        }
-        public void GenerateBitEnumFile(OperandKind enumeration)
-        {
-            var text = new FlagTemplate(enumeration).TransformText();
-            var path = Path.Combine(Path.GetDirectoryName(this.GetType().Assembly.Location),
-                @"..\..\..\..\SpirVGraph\Spv\" + enumeration.kind + ".cs");
             using (var file = File.CreateText(path))
             {
                 file.Write(text);
@@ -79,24 +83,20 @@ namespace SpirVCodeGen
         [Test]
         public void GetAllFlags()
         {
-            foreach (var operandKind in GetOperandKinds())
+            foreach (var category in GetOperandKinds().ToLookup(_ => _.category))
             {
-                if (operandKind.category == "ValueEnum" || operandKind.category == "BitEnum")
+                Console.WriteLine("public static bool Is"+category.Key+"(string kind)");
+                Console.WriteLine("{");
+                Console.WriteLine("switch (kind)");
+                Console.WriteLine("{");
+                foreach (var kind in category)
                 {
-                    Console.WriteLine(@"
-        public static " + operandKind.kind + @" Parse" + operandKind.kind + @"(WordReader reader, uint wordCount)
-        {
-            return " + operandKind.kind + @".Parse(reader, wordCount);
-        }");
+                    Console.WriteLine("case \""+kind+"\":");
                 }
-                else
-                {
-                    Console.WriteLine(@"
-        public static uint Parse" + operandKind.kind + @"(WordReader reader, uint wordCount)
-        {
-            return reader.ReadWord();
-        }");
-                }
+                Console.WriteLine("return true;");
+                Console.WriteLine("}");
+                Console.WriteLine("return false;");
+                Console.WriteLine("}");
             }
         }
 

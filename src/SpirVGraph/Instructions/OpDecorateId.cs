@@ -12,7 +12,7 @@ namespace SpirVGraph.Instructions
         public override Op OpCode { get { return Op.OpDecorateId; } }
 
 		public uint Target { get; set; }
-		public Decoration Decoration { get; set; }
+		public Spv.Decoration Decoration { get; set; }
 
         public override bool TryGetResultId(out uint id)
         {
@@ -23,8 +23,8 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    Target = ParseWord(reader, end-reader.Position);
-		    Decoration = Decoration.Parse(reader, end-reader.Position);
+		    Target = Spv.IdRef.Parse(reader, end-reader.Position);
+		    Decoration = Spv.Decoration.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

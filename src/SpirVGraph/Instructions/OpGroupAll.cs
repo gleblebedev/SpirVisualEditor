@@ -25,10 +25,10 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    IdResultType = ParseWord(reader, end-reader.Position);
-		    IdResult = ParseWord(reader, end-reader.Position);
-		    Execution = ParseWord(reader, end-reader.Position);
-		    Predicate = ParseWord(reader, end-reader.Position);
+		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
+		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+		    Execution = Spv.IdScope.Parse(reader, end-reader.Position);
+		    Predicate = Spv.IdRef.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

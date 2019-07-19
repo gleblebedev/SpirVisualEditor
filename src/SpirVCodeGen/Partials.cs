@@ -8,44 +8,92 @@ using SpirVCodeGen.Model;
 
 namespace SpirVCodeGen
 {
-    internal static class Utils
+    public partial class IdTemplate : IdTemplateBase
     {
-        public static string GetPropertyName(string name)
-        {
-            name = name.Trim('\'').Trim('.');
-            name = name.Replace(" ", "");
-            name = name.Replace("-", "");
-            name = name.Replace("~ref~", "_ref");
-            name = name.Replace("<<Invocation,invocations>>", "Invocations");
+        private readonly OperandKind _operandKind;
 
+        public IdTemplate(OperandKind operandKind)
+        {
+            _operandKind = operandKind;
+        }
+
+        public string Name
+        {
+            get { return _operandKind.kind; }
+        }
+    }
+    public partial class CompositeTemplate : CompositeTemplateBase
+    {
+        private readonly OperandKind _operandKind;
+
+        public CompositeTemplate(OperandKind operandKind)
+        {
+            _operandKind = operandKind;
+            var bases = new List<Property>();
+            var visitedPropertyNames = new HashSet<string>();
+            foreach (var type in operandKind.bases ?? EmptyReadOnlyList<string>.Instance)
             {
-                var collectionIndex = name.IndexOf("0\'");
-                if (collectionIndex > 0)
+                string name = type;
+                if (!visitedPropertyNames.Add(name))
                 {
-                    name = name.Substring(0, collectionIndex) + "s";
+                    for (int i=2; ; i++)
+                    {
+                        name = type + i;
+                        if (visitedPropertyNames.Add(name))
+                            break;
+                    }
                 }
-            }
-            {
-                var collectionIndex = name.IndexOf("0Type\'", StringComparison.InvariantCultureIgnoreCase);
-                if (collectionIndex > 0)
+                var property = new Property()
                 {
-                    name = name.Substring(0, collectionIndex) + "Types";
-                }
+                    Type = Utils.GetTypeName(type),
+                    Base = type,
+                    Name = name
+                };
+                bases.Add(property);
             }
-            return name;
+
+            this.bases = bases;
+        }
+
+        public string Name
+        {
+            get { return _operandKind.kind; }
+        }
+
+        public IReadOnlyList<Property> bases { get; set; }
+
+        public class Property
+        {
+            public string Type { get; set; }
+            public string Name { get; set; }
+            public string Base { get; set; }
+        }
+    }
+    public partial class LiteralTemplate : LiteralTemplateBase
+    {
+        private readonly OperandKind _operandKind;
+
+        public LiteralTemplate(OperandKind operandKind)
+        {
+            _operandKind = operandKind;
+        }
+
+        public string Name
+        {
+            get { return _operandKind.kind; }
         }
     }
     public partial class EnumTemplate : EnumTemplateBase
     {
-        private readonly OperandKind _enumeration;
+        private readonly OperandKind _operandKind;
 
-        public EnumTemplate(OperandKind enumeration)
+        public EnumTemplate(OperandKind operandKind)
         {
-            _enumeration = enumeration;
+            _operandKind = operandKind;
         }
 
-        public string Name { get { return _enumeration.kind; }}
-        public IReadOnlyList<Enumerant> Values { get { return _enumeration.enumerants ?? EmptyReadOnlyList<Enumerant>.Instance; } }
+        public string Name { get { return _operandKind.kind; }}
+        public IReadOnlyList<Enumerant> Values { get { return _operandKind.enumerants ?? EmptyReadOnlyList<Enumerant>.Instance; } }
 
         public string GetName(string enumerant, Parameter parameter)
         {
@@ -156,76 +204,19 @@ namespace SpirVCodeGen
 
         public string GetOperandType(Operand operand)
         {
-            switch (operand.kind)
+            var type = Utils.GetTypeName(operand.kind);
+            if (operand.quantifier == "?")
             {
-                case "IdResultType":
-                case "IdResult":
-                case "IdRef":
-                case "IdScope":
-                case "LiteralInteger":
-                case "LiteralExtInstInteger":
-                case "IdMemorySemantics":
-                    if (operand.quantifier == "?")
-                        return "uint?";
-                    else if (operand.quantifier == "*")
-                        return "IList<uint>";
-                    else if (string.IsNullOrWhiteSpace(operand.quantifier))
-                        return "uint";
-                    else
-                        throw new NotImplementedException();
-                case "PairIdRefLiteralInteger":
-                case "PairLiteralIntegerIdRef":
-                    if (operand.quantifier == "*")
-                        return "IList<IdAndLiteral>";
-                    else
-                        throw new NotImplementedException();
-
-                case "ImageOperands":
-                case "FPFastMathMode":
-                case "SelectionControl":
-                case "LoopControl":
-                case "FunctionControl":
-                case "MemorySemantics":
-                case "MemoryAccess":
-                case "KernelProfilingInfo":
-                case "SourceLanguage":
-                case "ExecutionModel":
-                case "AddressingModel":
-                case "MemoryModel":
-                case "ExecutionMode":
-                case "StorageClass":
-                case "Dim":
-                case "SamplerAddressingMode":
-                case "SamplerFilterMode":
-                case "ImageFormat":
-                case "ImageChannelOrder":
-                case "ImageChannelDataType":
-                case "FPRoundingMode":
-                case "LinkageType":
-                case "AccessQualifier":
-                case "FunctionParameterAttribute":
-                case "Decoration":
-                case "BuiltIn":
-                case "Scope":
-                case "GroupOperation":
-                case "KernelEnqueueFlags":
-                case "Capability":
-                    if (operand.quantifier == "?")
-                        return operand.kind;
-                    if (string.IsNullOrWhiteSpace(operand.quantifier))
-                        return operand.kind;
-                    else
-                        throw new NotImplementedException();
-                case "LiteralString":
-                    if (operand.quantifier == "?")
-                        return "string";
-                    if (string.IsNullOrWhiteSpace(operand.quantifier))
-                        return "string";
-                    else
-                        throw new NotImplementedException();
-                default:
-                    throw new NotImplementedException("Unknown operand kind "+operand.kind);
+                if (type == "uint")
+                    return "uint?";
+                return type;
             }
+            if (operand.quantifier == "*")
+            {
+                return "IList<"+type+">";
+            }
+
+            return type;
         }
         public string GetOperandName(Operand operand)
         {
@@ -235,77 +226,11 @@ namespace SpirVCodeGen
         }
         public string GetOperandParser(Operand operand)
         {
-            switch (operand.kind)
-            {
-                case "IdResultType":
-                case "IdResult":
-                case "IdRef":
-                case "IdScope":
-                case "LiteralInteger":
-                case "IdMemorySemantics":
-                    if (operand.quantifier == "?")
-                        return "ParseOptionalWord";
-                    else if (operand.quantifier == "*")
-                        return "ParseWordCollection";
-                    else
-                        return "ParseWord";
-                case "PairIdRefLiteralInteger":
-                    if (operand.quantifier == "*")
-                        return "ParsePairIdRefLiteralIntegerCollection";
-                    else
-                        throw new NotImplementedException();
-                case "PairLiteralIntegerIdRef":
-                    if (operand.quantifier == "*")
-                        return "ParsePairLiteralIntegerIdRefCollection";
-                    else
-                        throw new NotImplementedException();
-
-                case "ImageOperands":
-                case "FPFastMathMode":
-                case "SelectionControl":
-                case "LoopControl":
-                case "FunctionControl":
-                case "MemorySemantics":
-                case "MemoryAccess":
-                case "KernelProfilingInfo":
-                case "SourceLanguage":
-                case "ExecutionModel":
-                case "AddressingModel":
-                case "MemoryModel":
-                case "ExecutionMode":
-                case "StorageClass":
-                case "Dim":
-                case "SamplerAddressingMode":
-                case "SamplerFilterMode":
-                case "ImageFormat":
-                case "ImageChannelOrder":
-                case "ImageChannelDataType":
-                case "FPRoundingMode":
-                case "LinkageType":
-                case "AccessQualifier":
-                case "FunctionParameterAttribute":
-                case "Decoration":
-                case "BuiltIn":
-                case "Scope":
-                case "GroupOperation":
-                case "KernelEnqueueFlags":
-                case "Capability":
-                    if (operand.quantifier == "?")
-                        return operand.kind + ".ParseOptional";
-                    else if (string.IsNullOrWhiteSpace(operand.quantifier))
-                        return operand.kind + ".Parse";
-                    else
-                        throw new NotImplementedException();
-                case "LiteralString":
-                    if (operand.quantifier == "?")
-                        return "ParseString";
-                    if (string.IsNullOrWhiteSpace(operand.quantifier))
-                        return "ParseString";
-                    else
-                        throw new NotImplementedException();
-                default:
-                    throw new NotImplementedException("Unknown operand kind " + operand.kind);
-            }
+            if (operand.quantifier == "?")
+                return "Spv." + operand.kind + ".ParseOptional";
+            if (operand.quantifier == "*")
+                return "Spv." + operand.kind + ".ParseCollection";
+            return "Spv." + operand.kind + ".Parse";
         }
     }
 }

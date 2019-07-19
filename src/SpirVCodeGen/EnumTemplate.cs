@@ -28,16 +28,17 @@ namespace SpirVCodeGen
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("namespace SpirVGraph.Spv\r\n{\r\n    public class ");
+            this.Write("using System.Collections.Generic;\r\n\r\nnamespace SpirVGraph.Spv\r\n{\r\n    public clas" +
+                    "s ");
             
-            #line 8 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 10 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
             #line hidden
             this.Write(" : ValueEnum\r\n    {\r\n        public enum Enumerant\r\n        {\r\n");
             
-            #line 12 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 14 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
 
 		foreach (var kv in Values)
 		{
@@ -49,14 +50,14 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("            [Capability(Capability.Enumerant.");
             
-            #line 18 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 20 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(capability));
             
             #line default
             #line hidden
             this.Write(")]\r\n");
             
-            #line 19 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 21 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
 
 			}
 
@@ -65,21 +66,21 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("            ");
             
-            #line 22 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 24 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetId(kv.enumerant)));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 22 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 24 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(kv.value));
             
             #line default
             #line hidden
             this.Write(",\r\n");
             
-            #line 23 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 25 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
 
 		}
 
@@ -88,7 +89,7 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("\t\t}\r\n\r\n");
             
-            #line 28 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 30 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
 
 		foreach (var kv in Values)
 		{
@@ -100,35 +101,35 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("        public class ");
             
-            #line 34 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 36 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetId(kv.enumerant)));
             
             #line default
             #line hidden
             this.Write(": ");
             
-            #line 34 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 36 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
             #line hidden
             this.Write("\r\n        {\r\n            public ");
             
-            #line 36 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 38 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetId(kv.enumerant)));
             
             #line default
             #line hidden
             this.Write("():base(Enumerant.");
             
-            #line 36 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 38 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetId(kv.enumerant)));
             
             #line default
             #line hidden
             this.Write("){}\r\n");
             
-            #line 37 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 39 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
 
 		foreach (var parameter in kv.parameters)
 		{
@@ -138,21 +139,21 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("            public ");
             
-            #line 41 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 43 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetParameterType(parameter.kind)));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 41 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 43 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetName(GetId(kv.enumerant), parameter)));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n");
             
-            #line 42 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 44 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
 
 		}
 
@@ -161,22 +162,22 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("            public new static ");
             
-            #line 45 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 47 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetId(kv.enumerant)));
             
             #line default
             #line hidden
-            this.Write(" Parse(WordReader reader, uint wordCount)\r\n            {\r\n                var res" +
-                    " = new ");
+            this.Write(" Parse(WordReader reader, uint wordCount)\r\n            {\r\n\t\t\t\tvar end = reader.Po" +
+                    "sition+wordCount;\r\n                var res = new ");
             
-            #line 47 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 50 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetId(kv.enumerant)));
             
             #line default
             #line hidden
             this.Write("();\r\n");
             
-            #line 48 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 51 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
 
 		foreach (var parameter in kv.parameters)
 		{
@@ -186,21 +187,21 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("                res.");
             
-            #line 52 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 55 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetName(GetId(kv.enumerant), parameter)));
             
             #line default
             #line hidden
-            this.Write(" = Parser.Parse");
+            this.Write(" = Spv.");
             
-            #line 52 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 55 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parameter.kind));
             
             #line default
             #line hidden
-            this.Write("(reader, wordCount);\r\n");
+            this.Write(".Parse(reader, end-reader.Position);\r\n");
             
-            #line 53 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 56 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
 
 		}
 
@@ -209,7 +210,7 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("                return res;\r\n            }\r\n        }\r\n");
             
-            #line 59 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 62 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
 
 			}
 		}
@@ -219,7 +220,7 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("\r\n        public ");
             
-            #line 64 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 67 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
@@ -227,7 +228,7 @@ namespace SpirVCodeGen
             this.Write("(Enumerant value)\r\n        {\r\n            Value = value;\r\n        }\r\n\r\n        pu" +
                     "blic Enumerant Value { get; }\r\n\r\n        public static ");
             
-            #line 71 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 74 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
@@ -235,7 +236,7 @@ namespace SpirVCodeGen
             this.Write(" Parse(WordReader reader, uint wordCount)\r\n        {\r\n            var id = (Enume" +
                     "rant) reader.ReadWord();\r\n            switch (id)\r\n            {\r\n");
             
-            #line 76 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 79 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
 
 		foreach (var kv in Values)
 		{
@@ -247,21 +248,21 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("                case Enumerant.");
             
-            #line 82 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 85 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetId(kv.enumerant)));
             
             #line default
             #line hidden
             this.Write(" :\r\n                    return ");
             
-            #line 83 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 86 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetId(kv.enumerant)));
             
             #line default
             #line hidden
             this.Write(".Parse(reader, wordCount - 1);\r\n");
             
-            #line 84 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 87 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
 
 			}
 		}
@@ -271,22 +272,41 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("                default:\r\n                    return new ");
             
-            #line 89 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 92 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
             #line hidden
             this.Write("(id);\r\n            }\r\n        }\r\n\t\t\r\n        public static ");
             
-            #line 93 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            #line 96 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
             #line hidden
-            this.Write(@" ParseOptional(WordReader reader, uint wordCount)
-        {
-			if (wordCount == 0) return null;
-            return Parse(reader, wordCount);
+            this.Write(" ParseOptional(WordReader reader, uint wordCount)\r\n        {\r\n\t\t\tif (wordCount ==" +
+                    " 0) return null;\r\n            return Parse(reader, wordCount);\r\n        }\r\n\r\n   " +
+                    "     public static IList<");
+            
+            #line 102 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Name));
+            
+            #line default
+            #line hidden
+            this.Write("> ParseCollection(WordReader reader, uint wordCount)\r\n        {\r\n            var " +
+                    "end = reader.Position + wordCount;\r\n            var res = new List<");
+            
+            #line 105 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Name));
+            
+            #line default
+            #line hidden
+            this.Write(@">();
+            while (reader.Position < end)
+            {
+                res.Add(Parse(reader, end-reader.Position));
+            }
+            return res;
         }
 
         public override string ToString()

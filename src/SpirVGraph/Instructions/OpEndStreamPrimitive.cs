@@ -22,7 +22,7 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    Stream = ParseWord(reader, end-reader.Position);
+		    Stream = Spv.IdRef.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

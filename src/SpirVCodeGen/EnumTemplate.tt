@@ -3,6 +3,8 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
+using System.Collections.Generic;
+
 namespace SpirVGraph.Spv
 {
     public class <#= Name #> : ValueEnum
@@ -44,12 +46,13 @@ namespace SpirVGraph.Spv
 #>
             public new static <#= GetId(kv.enumerant) #> Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new <#= GetId(kv.enumerant) #>();
 <#
 		foreach (var parameter in kv.parameters)
 		{
 #>
-                res.<#= GetName(GetId(kv.enumerant), parameter) #> = Parser.Parse<#= parameter.kind #>(reader, wordCount);
+                res.<#= GetName(GetId(kv.enumerant), parameter) #> = Spv.<#= parameter.kind #>.Parse(reader, end-reader.Position);
 <#
 		}
 #>
@@ -94,6 +97,17 @@ namespace SpirVGraph.Spv
         {
 			if (wordCount == 0) return null;
             return Parse(reader, wordCount);
+        }
+
+        public static IList<<#= Name #>> ParseCollection(WordReader reader, uint wordCount)
+        {
+            var end = reader.Position + wordCount;
+            var res = new List<<#= Name #>>();
+            while (reader.Position < end)
+            {
+                res.Add(Parse(reader, end-reader.Position));
+            }
+            return res;
         }
 
         public override string ToString()

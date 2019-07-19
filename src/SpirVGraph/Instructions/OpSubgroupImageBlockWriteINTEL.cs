@@ -24,9 +24,9 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    Image = ParseWord(reader, end-reader.Position);
-		    Coordinate = ParseWord(reader, end-reader.Position);
-		    Data = ParseWord(reader, end-reader.Position);
+		    Image = Spv.IdRef.Parse(reader, end-reader.Position);
+		    Coordinate = Spv.IdRef.Parse(reader, end-reader.Position);
+		    Data = Spv.IdRef.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

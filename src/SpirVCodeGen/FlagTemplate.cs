@@ -28,16 +28,17 @@ namespace SpirVCodeGen
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using System;\r\n\r\nnamespace SpirVGraph.Spv\r\n{\r\n    public class ");
+            this.Write("using System;\r\nusing System.Collections.Generic;\r\n\r\nnamespace SpirVGraph.Spv\r\n{\r\n" +
+                    "    public class ");
             
-            #line 10 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
+            #line 11 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
             #line hidden
             this.Write(" : ValueEnum\r\n    {\r\n\t\t[Flags]\r\n        public enum Enumerant\r\n        {\r\n");
             
-            #line 15 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
+            #line 16 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
 
 		foreach (var kv in Values)
 		{
@@ -49,14 +50,14 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("            [Capability(Capability.Enumerant.");
             
-            #line 21 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
+            #line 22 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(capability));
             
             #line default
             #line hidden
             this.Write(")]\r\n");
             
-            #line 22 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
+            #line 23 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
 
 			}
 
@@ -65,21 +66,21 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("            ");
             
-            #line 25 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
+            #line 26 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetId(kv.enumerant)));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 25 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
+            #line 26 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(kv.value));
             
             #line default
             #line hidden
             this.Write(",\r\n");
             
-            #line 26 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
+            #line 27 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
 
 		}
 
@@ -88,7 +89,7 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("\t\t}\r\n\r\n        public ");
             
-            #line 31 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
+            #line 32 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
@@ -96,7 +97,7 @@ namespace SpirVCodeGen
             this.Write("(Enumerant value)\r\n        {\r\n            Value = value;\r\n        }\r\n\r\n        pu" +
                     "blic Enumerant Value { get; }\r\n\r\n        public static ");
             
-            #line 38 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
+            #line 39 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
@@ -104,22 +105,41 @@ namespace SpirVCodeGen
             this.Write(" Parse(WordReader reader, uint wordCount)\r\n        {\r\n            var id = (Enume" +
                     "rant) reader.ReadWord();\r\n\t\t\treturn new ");
             
-            #line 41 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
+            #line 42 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
             #line hidden
             this.Write("(id);\r\n        }\r\n\r\n        public static ");
             
-            #line 44 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
+            #line 45 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
             #line hidden
-            this.Write(@" ParseOptional(WordReader reader, uint wordCount)
-        {
-			if (wordCount == 0) return null;
-            return Parse(reader, wordCount);
+            this.Write(" ParseOptional(WordReader reader, uint wordCount)\r\n        {\r\n\t\t\tif (wordCount ==" +
+                    " 0) return null;\r\n            return Parse(reader, wordCount);\r\n        }\r\n\r\n   " +
+                    "     public static IList<");
+            
+            #line 51 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Name));
+            
+            #line default
+            #line hidden
+            this.Write("> ParseCollection(WordReader reader, uint wordCount)\r\n        {\r\n            var " +
+                    "end = reader.Position + wordCount;\r\n            var res = new List<");
+            
+            #line 54 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Name));
+            
+            #line default
+            #line hidden
+            this.Write(@">();
+            while (reader.Position < end)
+            {
+                res.Add(Parse(reader, end-reader.Position));
+            }
+            return res;
         }
 
         public override string ToString()

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Toe.Scripting;
 
 namespace SpirVGraph
@@ -8,12 +7,18 @@ namespace SpirVGraph
     {
         public static Script Deserialize(byte[] spirvBytes)
         {
-            if (spirvBytes.Length % 4 != 0) throw new FormatException("SpirV bytecode length should be divisable by 4");
-            using (var reader = new BinaryReader(new MemoryStream(spirvBytes)))
+            var shader = Shader.Parse(spirvBytes);
+            var script = new Script();
+            foreach (var instruction in shader.Instructions)
             {
-                var parser = new Parser(reader, spirvBytes.Length / 4);
-                return parser.Parse();
+                uint id;
+                if (instruction.TryGetResultId(out id))
+                {
+
+                }
             }
+
+            return script;
         }
 
         public static byte[] Serialize(Script script)

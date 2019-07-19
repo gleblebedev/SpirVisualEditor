@@ -15,7 +15,7 @@ namespace SpirVGraph.Instructions
 		public uint IdResult { get; set; }
 		public uint Image { get; set; }
 		public uint Coordinate { get; set; }
-		public ImageOperands ImageOperands { get; set; }
+		public Spv.ImageOperands ImageOperands { get; set; }
 
         public override bool TryGetResultId(out uint id)
         {
@@ -26,11 +26,11 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    IdResultType = ParseWord(reader, end-reader.Position);
-		    IdResult = ParseWord(reader, end-reader.Position);
-		    Image = ParseWord(reader, end-reader.Position);
-		    Coordinate = ParseWord(reader, end-reader.Position);
-		    ImageOperands = ImageOperands.ParseOptional(reader, end-reader.Position);
+		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
+		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+		    Image = Spv.IdRef.Parse(reader, end-reader.Position);
+		    Coordinate = Spv.IdRef.Parse(reader, end-reader.Position);
+		    ImageOperands = Spv.ImageOperands.ParseOptional(reader, end-reader.Position);
         }
 
         public override string ToString()

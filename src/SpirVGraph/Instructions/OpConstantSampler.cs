@@ -13,9 +13,9 @@ namespace SpirVGraph.Instructions
 
 		public uint IdResultType { get; set; }
 		public uint IdResult { get; set; }
-		public SamplerAddressingMode SamplerAddressingMode { get; set; }
+		public Spv.SamplerAddressingMode SamplerAddressingMode { get; set; }
 		public uint Param { get; set; }
-		public SamplerFilterMode SamplerFilterMode { get; set; }
+		public Spv.SamplerFilterMode SamplerFilterMode { get; set; }
 
         public override bool TryGetResultId(out uint id)
         {
@@ -26,11 +26,11 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    IdResultType = ParseWord(reader, end-reader.Position);
-		    IdResult = ParseWord(reader, end-reader.Position);
-		    SamplerAddressingMode = SamplerAddressingMode.Parse(reader, end-reader.Position);
-		    Param = ParseWord(reader, end-reader.Position);
-		    SamplerFilterMode = SamplerFilterMode.Parse(reader, end-reader.Position);
+		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
+		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+		    SamplerAddressingMode = Spv.SamplerAddressingMode.Parse(reader, end-reader.Position);
+		    Param = Spv.LiteralInteger.Parse(reader, end-reader.Position);
+		    SamplerFilterMode = Spv.SamplerFilterMode.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

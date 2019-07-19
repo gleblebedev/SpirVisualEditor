@@ -6,12 +6,10 @@
 
   <ItemGroup>
     <None Remove="spirv.core.grammar.json" />
-    <None Remove="spirv.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="spirv.core.grammar.json" />
-    <EmbeddedResource Include="spirv.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="CompositeTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>CompositeTemplate.cs</LastGenOutput>
+    </None>
     <None Update="EnumTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>EnumTemplate.cs</LastGenOutput>
@@ -27,6 +29,10 @@
     <None Update="FlagTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>FlagTemplate.cs</LastGenOutput>
+    </None>
+    <None Update="IdTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>IdTemplate.cs</LastGenOutput>
     </None>
     <None Update="InstructionFactoryTemplate.tt">
       <LastGenOutput>InstructionFactoryTemplate.cs</LastGenOutput>
@@ -36,6 +42,10 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>InstructionTemplate.cs</LastGenOutput>
     </None>
+    <None Update="LiteralTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>LiteralTemplate.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +53,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="CompositeTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CompositeTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Update="EnumTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -53,6 +68,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>FlagTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Update="IdTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IdTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Update="InstructionFactoryTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -62,6 +82,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>InstructionTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="LiteralTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LiteralTemplate.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

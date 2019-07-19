@@ -11,8 +11,8 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpMemoryModel; } }
 
-		public AddressingModel AddressingModel { get; set; }
-		public MemoryModel MemoryModel { get; set; }
+		public Spv.AddressingModel AddressingModel { get; set; }
+		public Spv.MemoryModel MemoryModel { get; set; }
 
         public override bool TryGetResultId(out uint id)
         {
@@ -23,8 +23,8 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    AddressingModel = AddressingModel.Parse(reader, end-reader.Position);
-		    MemoryModel = MemoryModel.Parse(reader, end-reader.Position);
+		    AddressingModel = Spv.AddressingModel.Parse(reader, end-reader.Position);
+		    MemoryModel = Spv.MemoryModel.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

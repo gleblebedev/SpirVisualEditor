@@ -27,12 +27,12 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    IdResultType = ParseWord(reader, end-reader.Position);
-		    IdResult = ParseWord(reader, end-reader.Position);
-		    Pointer = ParseWord(reader, end-reader.Position);
-		    Scope = ParseWord(reader, end-reader.Position);
-		    Semantics = ParseWord(reader, end-reader.Position);
-		    Value = ParseWord(reader, end-reader.Position);
+		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
+		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+		    Pointer = Spv.IdRef.Parse(reader, end-reader.Position);
+		    Scope = Spv.IdScope.Parse(reader, end-reader.Position);
+		    Semantics = Spv.IdMemorySemantics.Parse(reader, end-reader.Position);
+		    Value = Spv.IdRef.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

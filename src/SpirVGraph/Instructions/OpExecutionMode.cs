@@ -12,7 +12,7 @@ namespace SpirVGraph.Instructions
         public override Op OpCode { get { return Op.OpExecutionMode; } }
 
 		public uint EntryPoint { get; set; }
-		public ExecutionMode Mode { get; set; }
+		public Spv.ExecutionMode Mode { get; set; }
 
         public override bool TryGetResultId(out uint id)
         {
@@ -23,8 +23,8 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    EntryPoint = ParseWord(reader, end-reader.Position);
-		    Mode = ExecutionMode.Parse(reader, end-reader.Position);
+		    EntryPoint = Spv.IdRef.Parse(reader, end-reader.Position);
+		    Mode = Spv.ExecutionMode.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

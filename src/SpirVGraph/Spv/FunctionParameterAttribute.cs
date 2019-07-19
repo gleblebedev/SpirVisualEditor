@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace SpirVGraph.Spv
 {
     public class FunctionParameterAttribute : ValueEnum
@@ -44,6 +46,17 @@ namespace SpirVGraph.Spv
         {
 			if (wordCount == 0) return null;
             return Parse(reader, wordCount);
+        }
+
+        public static IList<FunctionParameterAttribute> ParseCollection(WordReader reader, uint wordCount)
+        {
+            var end = reader.Position + wordCount;
+            var res = new List<FunctionParameterAttribute>();
+            while (reader.Position < end)
+            {
+                res.Add(Parse(reader, end-reader.Position));
+            }
+            return res;
         }
 
         public override string ToString()

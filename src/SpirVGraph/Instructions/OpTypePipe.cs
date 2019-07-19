@@ -12,7 +12,7 @@ namespace SpirVGraph.Instructions
         public override Op OpCode { get { return Op.OpTypePipe; } }
 
 		public uint IdResult { get; set; }
-		public AccessQualifier Qualifier { get; set; }
+		public Spv.AccessQualifier Qualifier { get; set; }
 
         public override bool TryGetResultId(out uint id)
         {
@@ -23,8 +23,8 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    IdResult = ParseWord(reader, end-reader.Position);
-		    Qualifier = AccessQualifier.Parse(reader, end-reader.Position);
+		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+		    Qualifier = Spv.AccessQualifier.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

@@ -12,7 +12,7 @@ namespace SpirVGraph.Instructions
         public override Op OpCode { get { return Op.OpGroupMemberDecorate; } }
 
 		public uint DecorationGroup { get; set; }
-		public IList<IdAndLiteral> Targets { get; set; }
+		public IList<Spv.PairIdRefLiteralInteger> Targets { get; set; }
 
         public override bool TryGetResultId(out uint id)
         {
@@ -23,8 +23,8 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    DecorationGroup = ParseWord(reader, end-reader.Position);
-		    Targets = ParsePairIdRefLiteralIntegerCollection(reader, end-reader.Position);
+		    DecorationGroup = Spv.IdRef.Parse(reader, end-reader.Position);
+		    Targets = Spv.PairIdRefLiteralInteger.ParseCollection(reader, end-reader.Position);
         }
 
         public override string ToString()

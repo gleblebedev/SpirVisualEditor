@@ -13,7 +13,7 @@ namespace SpirVGraph.Instructions
 
 		public uint IdResultType { get; set; }
 		public uint IdResult { get; set; }
-		public FunctionControl FunctionControl { get; set; }
+		public Spv.FunctionControl FunctionControl { get; set; }
 		public uint FunctionType { get; set; }
 
         public override bool TryGetResultId(out uint id)
@@ -25,10 +25,10 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    IdResultType = ParseWord(reader, end-reader.Position);
-		    IdResult = ParseWord(reader, end-reader.Position);
-		    FunctionControl = FunctionControl.Parse(reader, end-reader.Position);
-		    FunctionType = ParseWord(reader, end-reader.Position);
+		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
+		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+		    FunctionControl = Spv.FunctionControl.Parse(reader, end-reader.Position);
+		    FunctionType = Spv.IdRef.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

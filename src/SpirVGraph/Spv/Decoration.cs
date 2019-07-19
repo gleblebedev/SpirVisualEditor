@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace SpirVGraph.Spv
 {
     public class Decoration : ValueEnum
@@ -106,8 +108,9 @@ namespace SpirVGraph.Spv
             public uint SpecializationConstantID { get; set; }
             public new static SpecId Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new SpecId();
-                res.SpecializationConstantID = Parser.ParseLiteralInteger(reader, wordCount);
+                res.SpecializationConstantID = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -117,8 +120,9 @@ namespace SpirVGraph.Spv
             public uint ArrayStrideValue { get; set; }
             public new static ArrayStride Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new ArrayStride();
-                res.ArrayStrideValue = Parser.ParseLiteralInteger(reader, wordCount);
+                res.ArrayStrideValue = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -128,8 +132,9 @@ namespace SpirVGraph.Spv
             public uint MatrixStrideValue { get; set; }
             public new static MatrixStride Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new MatrixStride();
-                res.MatrixStrideValue = Parser.ParseLiteralInteger(reader, wordCount);
+                res.MatrixStrideValue = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -139,8 +144,9 @@ namespace SpirVGraph.Spv
             public Spv.BuiltIn BuiltInValue { get; set; }
             public new static BuiltIn Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new BuiltIn();
-                res.BuiltInValue = Parser.ParseBuiltIn(reader, wordCount);
+                res.BuiltInValue = Spv.BuiltIn.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -150,8 +156,9 @@ namespace SpirVGraph.Spv
             public uint StreamNumber { get; set; }
             public new static Stream Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new Stream();
-                res.StreamNumber = Parser.ParseLiteralInteger(reader, wordCount);
+                res.StreamNumber = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -161,8 +168,9 @@ namespace SpirVGraph.Spv
             public uint LocationValue { get; set; }
             public new static Location Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new Location();
-                res.LocationValue = Parser.ParseLiteralInteger(reader, wordCount);
+                res.LocationValue = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -172,8 +180,9 @@ namespace SpirVGraph.Spv
             public uint ComponentValue { get; set; }
             public new static Component Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new Component();
-                res.ComponentValue = Parser.ParseLiteralInteger(reader, wordCount);
+                res.ComponentValue = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -183,8 +192,9 @@ namespace SpirVGraph.Spv
             public uint IndexValue { get; set; }
             public new static Index Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new Index();
-                res.IndexValue = Parser.ParseLiteralInteger(reader, wordCount);
+                res.IndexValue = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -194,8 +204,9 @@ namespace SpirVGraph.Spv
             public uint BindingPoint { get; set; }
             public new static Binding Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new Binding();
-                res.BindingPoint = Parser.ParseLiteralInteger(reader, wordCount);
+                res.BindingPoint = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -205,8 +216,9 @@ namespace SpirVGraph.Spv
             public uint DescriptorSetValue { get; set; }
             public new static DescriptorSet Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new DescriptorSet();
-                res.DescriptorSetValue = Parser.ParseLiteralInteger(reader, wordCount);
+                res.DescriptorSetValue = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -216,8 +228,9 @@ namespace SpirVGraph.Spv
             public uint ByteOffset { get; set; }
             public new static Offset Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new Offset();
-                res.ByteOffset = Parser.ParseLiteralInteger(reader, wordCount);
+                res.ByteOffset = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -227,8 +240,9 @@ namespace SpirVGraph.Spv
             public uint XFBBufferNumber { get; set; }
             public new static XfbBuffer Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new XfbBuffer();
-                res.XFBBufferNumber = Parser.ParseLiteralInteger(reader, wordCount);
+                res.XFBBufferNumber = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -238,8 +252,9 @@ namespace SpirVGraph.Spv
             public uint XFBStride { get; set; }
             public new static XfbStride Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new XfbStride();
-                res.XFBStride = Parser.ParseLiteralInteger(reader, wordCount);
+                res.XFBStride = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -249,8 +264,9 @@ namespace SpirVGraph.Spv
             public Spv.FunctionParameterAttribute FunctionParameterAttribute { get; set; }
             public new static FuncParamAttr Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new FuncParamAttr();
-                res.FunctionParameterAttribute = Parser.ParseFunctionParameterAttribute(reader, wordCount);
+                res.FunctionParameterAttribute = Spv.FunctionParameterAttribute.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -260,8 +276,9 @@ namespace SpirVGraph.Spv
             public Spv.FPRoundingMode FloatingPointRoundingMode { get; set; }
             public new static FPRoundingMode Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new FPRoundingMode();
-                res.FloatingPointRoundingMode = Parser.ParseFPRoundingMode(reader, wordCount);
+                res.FloatingPointRoundingMode = Spv.FPRoundingMode.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -271,8 +288,9 @@ namespace SpirVGraph.Spv
             public Spv.FPFastMathMode FastMathMode { get; set; }
             public new static FPFastMathMode Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new FPFastMathMode();
-                res.FastMathMode = Parser.ParseFPFastMathMode(reader, wordCount);
+                res.FastMathMode = Spv.FPFastMathMode.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -283,9 +301,10 @@ namespace SpirVGraph.Spv
             public Spv.LinkageType LinkageType { get; set; }
             public new static LinkageAttributes Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new LinkageAttributes();
-                res.Name = Parser.ParseLiteralString(reader, wordCount);
-                res.LinkageType = Parser.ParseLinkageType(reader, wordCount);
+                res.Name = Spv.LiteralString.Parse(reader, end-reader.Position);
+                res.LinkageType = Spv.LinkageType.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -295,8 +314,9 @@ namespace SpirVGraph.Spv
             public uint AttachmentIndex { get; set; }
             public new static InputAttachmentIndex Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new InputAttachmentIndex();
-                res.AttachmentIndex = Parser.ParseLiteralInteger(reader, wordCount);
+                res.AttachmentIndex = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -306,8 +326,9 @@ namespace SpirVGraph.Spv
             public uint AlignmentValue { get; set; }
             public new static Alignment Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new Alignment();
-                res.AlignmentValue = Parser.ParseLiteralInteger(reader, wordCount);
+                res.AlignmentValue = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -317,8 +338,9 @@ namespace SpirVGraph.Spv
             public uint Offset { get; set; }
             public new static SecondaryViewportRelativeNV Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new SecondaryViewportRelativeNV();
-                res.Offset = Parser.ParseLiteralInteger(reader, wordCount);
+                res.Offset = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -328,8 +350,9 @@ namespace SpirVGraph.Spv
             public uint CounterBuffer { get; set; }
             public new static HlslCounterBufferGOOGLE Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new HlslCounterBufferGOOGLE();
-                res.CounterBuffer = Parser.ParseIdRef(reader, wordCount);
+                res.CounterBuffer = Spv.IdRef.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -339,8 +362,9 @@ namespace SpirVGraph.Spv
             public string Semantic { get; set; }
             public new static HlslSemanticGOOGLE Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new HlslSemanticGOOGLE();
-                res.Semantic = Parser.ParseLiteralString(reader, wordCount);
+                res.Semantic = Spv.LiteralString.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -410,6 +434,17 @@ namespace SpirVGraph.Spv
         {
 			if (wordCount == 0) return null;
             return Parse(reader, wordCount);
+        }
+
+        public static IList<Decoration> ParseCollection(WordReader reader, uint wordCount)
+        {
+            var end = reader.Position + wordCount;
+            var res = new List<Decoration>();
+            while (reader.Position < end)
+            {
+                res.Add(Parse(reader, end-reader.Position));
+            }
+            return res;
         }
 
         public override string ToString()

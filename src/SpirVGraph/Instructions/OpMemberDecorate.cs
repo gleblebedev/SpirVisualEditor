@@ -13,7 +13,7 @@ namespace SpirVGraph.Instructions
 
 		public uint StructureType { get; set; }
 		public uint Member { get; set; }
-		public Decoration Decoration { get; set; }
+		public Spv.Decoration Decoration { get; set; }
 
         public override bool TryGetResultId(out uint id)
         {
@@ -24,9 +24,9 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    StructureType = ParseWord(reader, end-reader.Position);
-		    Member = ParseWord(reader, end-reader.Position);
-		    Decoration = Decoration.Parse(reader, end-reader.Position);
+		    StructureType = Spv.IdRef.Parse(reader, end-reader.Position);
+		    Member = Spv.LiteralInteger.Parse(reader, end-reader.Position);
+		    Decoration = Spv.Decoration.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

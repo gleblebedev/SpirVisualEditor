@@ -34,19 +34,19 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    IdResultType = ParseWord(reader, end-reader.Position);
-		    IdResult = ParseWord(reader, end-reader.Position);
-		    Queue = ParseWord(reader, end-reader.Position);
-		    Flags = ParseWord(reader, end-reader.Position);
-		    NDRange = ParseWord(reader, end-reader.Position);
-		    NumEvents = ParseWord(reader, end-reader.Position);
-		    WaitEvents = ParseWord(reader, end-reader.Position);
-		    RetEvent = ParseWord(reader, end-reader.Position);
-		    Invoke = ParseWord(reader, end-reader.Position);
-		    Param = ParseWord(reader, end-reader.Position);
-		    ParamSize = ParseWord(reader, end-reader.Position);
-		    ParamAlign = ParseWord(reader, end-reader.Position);
-		    LocalSize = ParseWordCollection(reader, end-reader.Position);
+		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
+		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+		    Queue = Spv.IdRef.Parse(reader, end-reader.Position);
+		    Flags = Spv.IdRef.Parse(reader, end-reader.Position);
+		    NDRange = Spv.IdRef.Parse(reader, end-reader.Position);
+		    NumEvents = Spv.IdRef.Parse(reader, end-reader.Position);
+		    WaitEvents = Spv.IdRef.Parse(reader, end-reader.Position);
+		    RetEvent = Spv.IdRef.Parse(reader, end-reader.Position);
+		    Invoke = Spv.IdRef.Parse(reader, end-reader.Position);
+		    Param = Spv.IdRef.Parse(reader, end-reader.Position);
+		    ParamSize = Spv.IdRef.Parse(reader, end-reader.Position);
+		    ParamAlign = Spv.IdRef.Parse(reader, end-reader.Position);
+		    LocalSize = Spv.IdRef.ParseCollection(reader, end-reader.Position);
         }
 
         public override string ToString()

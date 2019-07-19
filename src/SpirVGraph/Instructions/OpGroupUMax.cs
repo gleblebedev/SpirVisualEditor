@@ -14,7 +14,7 @@ namespace SpirVGraph.Instructions
 		public uint IdResultType { get; set; }
 		public uint IdResult { get; set; }
 		public uint Execution { get; set; }
-		public GroupOperation Operation { get; set; }
+		public Spv.GroupOperation Operation { get; set; }
 		public uint X { get; set; }
 
         public override bool TryGetResultId(out uint id)
@@ -26,11 +26,11 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    IdResultType = ParseWord(reader, end-reader.Position);
-		    IdResult = ParseWord(reader, end-reader.Position);
-		    Execution = ParseWord(reader, end-reader.Position);
-		    Operation = GroupOperation.Parse(reader, end-reader.Position);
-		    X = ParseWord(reader, end-reader.Position);
+		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
+		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+		    Execution = Spv.IdScope.Parse(reader, end-reader.Position);
+		    Operation = Spv.GroupOperation.Parse(reader, end-reader.Position);
+		    X = Spv.IdRef.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

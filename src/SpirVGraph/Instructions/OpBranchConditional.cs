@@ -25,10 +25,10 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    Condition = ParseWord(reader, end-reader.Position);
-		    TrueLabel = ParseWord(reader, end-reader.Position);
-		    FalseLabel = ParseWord(reader, end-reader.Position);
-		    Branchweights = ParseWordCollection(reader, end-reader.Position);
+		    Condition = Spv.IdRef.Parse(reader, end-reader.Position);
+		    TrueLabel = Spv.IdRef.Parse(reader, end-reader.Position);
+		    FalseLabel = Spv.IdRef.Parse(reader, end-reader.Position);
+		    Branchweights = Spv.LiteralInteger.ParseCollection(reader, end-reader.Position);
         }
 
         public override string ToString()

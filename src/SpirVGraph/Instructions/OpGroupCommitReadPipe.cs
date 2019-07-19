@@ -26,11 +26,11 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    Execution = ParseWord(reader, end-reader.Position);
-		    Pipe = ParseWord(reader, end-reader.Position);
-		    ReserveId = ParseWord(reader, end-reader.Position);
-		    PacketSize = ParseWord(reader, end-reader.Position);
-		    PacketAlignment = ParseWord(reader, end-reader.Position);
+		    Execution = Spv.IdScope.Parse(reader, end-reader.Position);
+		    Pipe = Spv.IdRef.Parse(reader, end-reader.Position);
+		    ReserveId = Spv.IdRef.Parse(reader, end-reader.Position);
+		    PacketSize = Spv.IdRef.Parse(reader, end-reader.Position);
+		    PacketAlignment = Spv.IdRef.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

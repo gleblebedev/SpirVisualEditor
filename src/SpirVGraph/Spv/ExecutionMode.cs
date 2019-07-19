@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace SpirVGraph.Spv
 {
     public class ExecutionMode : ValueEnum
@@ -79,8 +81,9 @@ namespace SpirVGraph.Spv
             public uint NumberofInvocations { get; set; }
             public new static Invocations Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new Invocations();
-                res.NumberofInvocations = Parser.ParseLiteralInteger(reader, wordCount);
+                res.NumberofInvocations = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -92,10 +95,11 @@ namespace SpirVGraph.Spv
             public uint zsize { get; set; }
             public new static LocalSize Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new LocalSize();
-                res.xsize = Parser.ParseLiteralInteger(reader, wordCount);
-                res.ysize = Parser.ParseLiteralInteger(reader, wordCount);
-                res.zsize = Parser.ParseLiteralInteger(reader, wordCount);
+                res.xsize = Spv.LiteralInteger.Parse(reader, end-reader.Position);
+                res.ysize = Spv.LiteralInteger.Parse(reader, end-reader.Position);
+                res.zsize = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -107,10 +111,11 @@ namespace SpirVGraph.Spv
             public uint zsize { get; set; }
             public new static LocalSizeHint Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new LocalSizeHint();
-                res.xsize = Parser.ParseLiteralInteger(reader, wordCount);
-                res.ysize = Parser.ParseLiteralInteger(reader, wordCount);
-                res.zsize = Parser.ParseLiteralInteger(reader, wordCount);
+                res.xsize = Spv.LiteralInteger.Parse(reader, end-reader.Position);
+                res.ysize = Spv.LiteralInteger.Parse(reader, end-reader.Position);
+                res.zsize = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -120,8 +125,9 @@ namespace SpirVGraph.Spv
             public uint Vertexcount { get; set; }
             public new static OutputVertices Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new OutputVertices();
-                res.Vertexcount = Parser.ParseLiteralInteger(reader, wordCount);
+                res.Vertexcount = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -131,8 +137,9 @@ namespace SpirVGraph.Spv
             public uint Vectortype { get; set; }
             public new static VecTypeHint Parse(WordReader reader, uint wordCount)
             {
+				var end = reader.Position+wordCount;
                 var res = new VecTypeHint();
-                res.Vectortype = Parser.ParseLiteralInteger(reader, wordCount);
+                res.Vectortype = Spv.LiteralInteger.Parse(reader, end-reader.Position);
                 return res;
             }
         }
@@ -168,6 +175,17 @@ namespace SpirVGraph.Spv
         {
 			if (wordCount == 0) return null;
             return Parse(reader, wordCount);
+        }
+
+        public static IList<ExecutionMode> ParseCollection(WordReader reader, uint wordCount)
+        {
+            var end = reader.Position + wordCount;
+            var res = new List<ExecutionMode>();
+            while (reader.Position < end)
+            {
+                res.Add(Parse(reader, end-reader.Position));
+            }
+            return res;
         }
 
         public override string ToString()

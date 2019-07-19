@@ -13,7 +13,7 @@ namespace SpirVGraph.Instructions
 
 		public uint Selector { get; set; }
 		public uint Default { get; set; }
-		public IList<IdAndLiteral> Target { get; set; }
+		public IList<Spv.PairLiteralIntegerIdRef> Target { get; set; }
 
         public override bool TryGetResultId(out uint id)
         {
@@ -24,9 +24,9 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    Selector = ParseWord(reader, end-reader.Position);
-		    Default = ParseWord(reader, end-reader.Position);
-		    Target = ParsePairLiteralIntegerIdRefCollection(reader, end-reader.Position);
+		    Selector = Spv.IdRef.Parse(reader, end-reader.Position);
+		    Default = Spv.IdRef.Parse(reader, end-reader.Position);
+		    Target = Spv.PairLiteralIntegerIdRef.ParseCollection(reader, end-reader.Position);
         }
 
         public override string ToString()

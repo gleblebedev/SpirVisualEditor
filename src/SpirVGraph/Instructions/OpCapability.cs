@@ -11,7 +11,7 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpCapability; } }
 
-		public Capability Capability { get; set; }
+		public Spv.Capability Capability { get; set; }
 
         public override bool TryGetResultId(out uint id)
         {
@@ -22,7 +22,7 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    Capability = Capability.Parse(reader, end-reader.Position);
+		    Capability = Spv.Capability.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

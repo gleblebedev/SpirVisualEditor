@@ -12,7 +12,7 @@ namespace SpirVGraph.Instructions
         public override Op OpCode { get { return Op.OpTypeForwardPointer; } }
 
 		public uint PointerType { get; set; }
-		public StorageClass StorageClass { get; set; }
+		public Spv.StorageClass StorageClass { get; set; }
 
         public override bool TryGetResultId(out uint id)
         {
@@ -23,8 +23,8 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    PointerType = ParseWord(reader, end-reader.Position);
-		    StorageClass = StorageClass.Parse(reader, end-reader.Position);
+		    PointerType = Spv.IdRef.Parse(reader, end-reader.Position);
+		    StorageClass = Spv.StorageClass.Parse(reader, end-reader.Position);
         }
 
         public override string ToString()

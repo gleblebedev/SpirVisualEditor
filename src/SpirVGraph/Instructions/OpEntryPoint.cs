@@ -11,7 +11,7 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpEntryPoint; } }
 
-		public ExecutionModel ExecutionModel { get; set; }
+		public Spv.ExecutionModel ExecutionModel { get; set; }
 		public uint EntryPoint { get; set; }
 		public string Name { get; set; }
 		public IList<uint> Interface { get; set; }
@@ -25,10 +25,10 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    ExecutionModel = ExecutionModel.Parse(reader, end-reader.Position);
-		    EntryPoint = ParseWord(reader, end-reader.Position);
-		    Name = ParseString(reader, end-reader.Position);
-		    Interface = ParseWordCollection(reader, end-reader.Position);
+		    ExecutionModel = Spv.ExecutionModel.Parse(reader, end-reader.Position);
+		    EntryPoint = Spv.IdRef.Parse(reader, end-reader.Position);
+		    Name = Spv.LiteralString.Parse(reader, end-reader.Position);
+		    Interface = Spv.IdRef.ParseCollection(reader, end-reader.Position);
         }
 
         public override string ToString()

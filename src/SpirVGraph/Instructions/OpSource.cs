@@ -11,7 +11,7 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpSource; } }
 
-		public SourceLanguage SourceLanguage { get; set; }
+		public Spv.SourceLanguage SourceLanguage { get; set; }
 		public uint Version { get; set; }
 		public uint? File { get; set; }
 		public string Source { get; set; }
@@ -25,10 +25,10 @@ namespace SpirVGraph.Instructions
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
-		    SourceLanguage = SourceLanguage.Parse(reader, end-reader.Position);
-		    Version = ParseWord(reader, end-reader.Position);
-		    File = ParseOptionalWord(reader, end-reader.Position);
-		    Source = ParseString(reader, end-reader.Position);
+		    SourceLanguage = Spv.SourceLanguage.Parse(reader, end-reader.Position);
+		    Version = Spv.LiteralInteger.Parse(reader, end-reader.Position);
+		    File = Spv.IdRef.ParseOptional(reader, end-reader.Position);
+		    Source = Spv.LiteralString.ParseOptional(reader, end-reader.Position);
         }
 
         public override string ToString()
