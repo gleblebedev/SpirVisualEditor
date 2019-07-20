@@ -180,7 +180,7 @@ namespace SpirVGraph.Spv
         public static IList<ExecutionMode> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<ExecutionMode>();
+            var res = new PrintableList<ExecutionMode>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

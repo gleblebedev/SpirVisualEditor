@@ -41,7 +41,7 @@ namespace SpirVGraph.Spv
         public static IList<AccessQualifier> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<AccessQualifier>();
+            var res = new PrintableList<AccessQualifier>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

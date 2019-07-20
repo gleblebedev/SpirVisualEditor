@@ -46,7 +46,7 @@ namespace SpirVGraph.Spv
         public static IList<MemorySemantics> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<MemorySemantics>();
+            var res = new PrintableList<MemorySemantics>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

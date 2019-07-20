@@ -26,7 +26,7 @@ namespace SpirVGraph.Spv
         public static IList<PairLiteralIntegerIdRef> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<PairLiteralIntegerIdRef>();
+            var res = new PrintableList<PairLiteralIntegerIdRef>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

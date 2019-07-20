@@ -44,7 +44,7 @@ namespace SpirVGraph.Spv
         public static IList<ImageOperands> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<ImageOperands>();
+            var res = new PrintableList<ImageOperands>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

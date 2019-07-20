@@ -35,7 +35,7 @@ namespace SpirVGraph.Spv
         public static IList<SelectionControl> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<SelectionControl>();
+            var res = new PrintableList<SelectionControl>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

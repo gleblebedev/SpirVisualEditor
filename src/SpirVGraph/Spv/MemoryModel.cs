@@ -41,7 +41,7 @@ namespace SpirVGraph.Spv
         public static IList<MemoryModel> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<MemoryModel>();
+            var res = new PrintableList<MemoryModel>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

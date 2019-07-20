@@ -69,7 +69,7 @@ namespace SpirVGraph.Spv
         public static IList<ImageChannelDataType> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<ImageChannelDataType>();
+            var res = new PrintableList<ImageChannelDataType>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

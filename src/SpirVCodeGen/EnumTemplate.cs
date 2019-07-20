@@ -294,7 +294,7 @@ namespace SpirVCodeGen
             #line default
             #line hidden
             this.Write("> ParseCollection(WordReader reader, uint wordCount)\r\n        {\r\n            var " +
-                    "end = reader.Position + wordCount;\r\n            var res = new List<");
+                    "end = reader.Position + wordCount;\r\n            var res = new PrintableList<");
             
             #line 105 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));

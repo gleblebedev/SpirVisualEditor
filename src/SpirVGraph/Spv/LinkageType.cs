@@ -39,7 +39,7 @@ namespace SpirVGraph.Spv
         public static IList<LinkageType> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<LinkageType>();
+            var res = new PrintableList<LinkageType>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

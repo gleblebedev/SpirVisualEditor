@@ -37,7 +37,7 @@ namespace SpirVGraph.Spv
         public static IList<FunctionControl> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<FunctionControl>();
+            var res = new PrintableList<FunctionControl>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

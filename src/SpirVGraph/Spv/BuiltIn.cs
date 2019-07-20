@@ -154,7 +154,7 @@ namespace SpirVGraph.Spv
         public static IList<BuiltIn> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<BuiltIn>();
+            var res = new PrintableList<BuiltIn>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

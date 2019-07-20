@@ -51,7 +51,7 @@ namespace SpirVGraph.Spv
         public static IList<FunctionParameterAttribute> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<FunctionParameterAttribute>();
+            var res = new PrintableList<FunctionParameterAttribute>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

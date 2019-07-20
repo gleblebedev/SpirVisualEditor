@@ -59,7 +59,7 @@ namespace SpirVGraph.Spv
         public static IList<FPRoundingMode> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<FPRoundingMode>();
+            var res = new PrintableList<FPRoundingMode>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

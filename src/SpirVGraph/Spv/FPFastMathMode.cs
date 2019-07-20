@@ -43,7 +43,7 @@ namespace SpirVGraph.Spv
         public static IList<FPFastMathMode> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<FPFastMathMode>();
+            var res = new PrintableList<FPFastMathMode>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

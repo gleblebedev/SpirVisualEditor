@@ -45,7 +45,7 @@ namespace SpirVGraph.Spv
         public static IList<SamplerAddressingMode> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<SamplerAddressingMode>();
+            var res = new PrintableList<SamplerAddressingMode>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

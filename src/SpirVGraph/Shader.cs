@@ -69,5 +69,10 @@ namespace SpirVGraph
                 return Parse(binaryReader, (uint)spirVBytes.Length / 4);
             }
         }
+
+        public override string ToString()
+        {
+            return string.Join(Environment.NewLine, Instructions);
+        }
     }
 }

@@ -114,7 +114,7 @@ namespace SpirVGraph.Spv
         public static IList<ImageFormat> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<ImageFormat>();
+            var res = new PrintableList<ImageFormat>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

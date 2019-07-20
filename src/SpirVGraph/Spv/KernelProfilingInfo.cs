@@ -35,7 +35,7 @@ namespace SpirVGraph.Spv
         public static IList<KernelProfilingInfo> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<KernelProfilingInfo>();
+            var res = new PrintableList<KernelProfilingInfo>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

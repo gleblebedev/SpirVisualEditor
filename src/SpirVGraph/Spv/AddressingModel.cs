@@ -40,7 +40,7 @@ namespace SpirVGraph.Spv
         public static IList<AddressingModel> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<AddressingModel>();
+            var res = new PrintableList<AddressingModel>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));

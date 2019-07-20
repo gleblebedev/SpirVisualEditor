@@ -41,7 +41,7 @@ namespace SpirVGraph.Spv
         public static IList<KernelEnqueueFlags> ParseCollection(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;
-            var res = new List<KernelEnqueueFlags>();
+            var res = new PrintableList<KernelEnqueueFlags>();
             while (reader.Position < end)
             {
                 res.Add(Parse(reader, end-reader.Position));
