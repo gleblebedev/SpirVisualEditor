@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpEndStreamPrimitive: Instruction
+    public partial class OpEndStreamPrimitive: Instruction
     {
         public OpEndStreamPrimitive()
         {
@@ -11,13 +12,12 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpEndStreamPrimitive; } }
 
-		public uint Stream { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+		public Spv.IdRef Stream { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Stream", Stream);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {

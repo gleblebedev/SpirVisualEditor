@@ -435,7 +435,8 @@
       "operands" : [
         { "kind" : "IdResultType" },
         { "kind" : "IdResult" },
-        { "kind" : "LiteralSpecConstantOpInteger", "name" : "'Opcode'" }
+        { "kind" : "LiteralSpecConstantOpInteger", "name" : "'Opcode'" },
+        { "kind" : "IdRef",  "quantifier" : "*", "name" : "'Operands'" }
       ]
     },
     {

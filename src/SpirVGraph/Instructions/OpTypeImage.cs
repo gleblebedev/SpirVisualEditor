@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpTypeImage: Instruction
+    public partial class OpTypeImage: TypeInstruction
     {
         public OpTypeImage()
         {
@@ -11,8 +12,7 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpTypeImage; } }
 
-		public uint IdResult { get; set; }
-		public uint SampledType { get; set; }
+		public Spv.IdRef SampledType { get; set; }
 		public Spv.Dim Dim { get; set; }
 		public uint Depth { get; set; }
 		public uint Arrayed { get; set; }
@@ -20,17 +20,17 @@ namespace SpirVGraph.Instructions
 		public uint Sampled { get; set; }
 		public Spv.ImageFormat ImageFormat { get; set; }
 		public Spv.AccessQualifier AccessQualifier { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = IdResult;
-            return true;
-        }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("SampledType", SampledType);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
 		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+            reader.Instructions.Add(this);
 		    SampledType = Spv.IdRef.Parse(reader, end-reader.Position);
 		    Dim = Spv.Dim.Parse(reader, end-reader.Position);
 		    Depth = Spv.LiteralInteger.Parse(reader, end-reader.Position);

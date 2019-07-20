@@ -7,18 +7,25 @@ namespace SpirVGraph
     public class WordReader
     {
         private readonly BinaryReader _reader;
+        private readonly InstructionRegistry _instructionRegistry;
 
 
         private uint _position = 0;
 
-        public WordReader(BinaryReader reader)
+        public WordReader(BinaryReader reader, InstructionRegistry instructionRegistry)
         {
             _reader = reader;
+            _instructionRegistry = instructionRegistry;
         }
 
         public uint Position
         {
             get { return _position; }
+        }
+
+        public InstructionRegistry Instructions
+        {
+            get { return _instructionRegistry; }
         }
 
         public uint ReadWord()
@@ -59,6 +66,14 @@ namespace SpirVGraph
                 return string.Empty;
             return Encoding.UTF8.GetString(bytes.ToArray(), 0, len);
         }
+
+        public byte[] ReadBytes(uint numWords)
+        {
+            var res = _reader.ReadBytes((int)numWords * 4);
+            _position += (uint)res.Length / 4;
+            return res;
+        }
+
 
     }
 }

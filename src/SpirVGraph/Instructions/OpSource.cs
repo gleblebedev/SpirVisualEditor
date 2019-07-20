@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpSource: Instruction
+    public partial class OpSource: Instruction
     {
         public OpSource()
         {
@@ -13,14 +14,13 @@ namespace SpirVGraph.Instructions
 
 		public Spv.SourceLanguage SourceLanguage { get; set; }
 		public uint Version { get; set; }
-		public uint? File { get; set; }
+		public Spv.IdRef File { get; set; }
 		public string Source { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("File", File);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {

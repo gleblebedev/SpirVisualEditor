@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpInBoundsAccessChain: Instruction
+    public partial class OpInBoundsAccessChain: InstructionWithId
     {
         public OpInBoundsAccessChain()
         {
@@ -11,22 +12,23 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpInBoundsAccessChain; } }
 
-		public uint IdResultType { get; set; }
-		public uint IdResult { get; set; }
-		public uint Base { get; set; }
-		public IList<uint> Indexes { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = IdResult;
-            return true;
-        }
+		public Spv.IdRef<TypeInstruction> IdResultType { get; set; }
+		public Spv.IdRef Base { get; set; }
+		public IList<Spv.IdRef> Indexes { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Base", Base);
+			for (int i=0; i<Indexes.Count; ++i)
+				yield return new ReferenceProperty("Indexes"+i, Indexes[i]);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
 		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
 		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+            reader.Instructions.Add(this);
 		    Base = Spv.IdRef.Parse(reader, end-reader.Position);
 		    Indexes = Spv.IdRef.ParseCollection(reader, end-reader.Position);
         }

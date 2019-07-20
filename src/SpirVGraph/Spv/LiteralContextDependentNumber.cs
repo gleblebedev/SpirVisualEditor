@@ -1,30 +1,40 @@
-using System;
 using System.Collections.Generic;
+using SpirVGraph.Instructions;
 
 namespace SpirVGraph.Spv
 {
-    public static class LiteralContextDependentNumber
+    public class LiteralContextDependentNumber
     {
-        public static uint Parse(WordReader reader, uint wordCount)
+        public Value Value { get; set; }
+
+        public static LiteralContextDependentNumber Parse(WordReader reader, uint wordCount, TypeInstruction type)
         {
-            return reader.ReadWord();
+            var size = type.SizeInWords;
+            return new LiteralContextDependentNumber { Value = new Value(reader.ReadBytes(size), type) };
         }
 
-        public static uint? ParseOptional(WordReader reader, uint wordCount)
+        public static LiteralContextDependentNumber ParseOptional(WordReader reader, uint wordCount, TypeInstruction type)
         {
             if (wordCount == 0) return null;
-            return Parse(reader, wordCount);
+            return Parse(reader, wordCount, type);
         }
 
-        public static IList<uint> ParseCollection(WordReader reader, uint wordCount)
+        public static IList<LiteralContextDependentNumber> ParseCollection(WordReader reader, uint wordCount, TypeInstruction type)
         {
             var end = reader.Position + wordCount;
-            var res = new PrintableList<uint>();
+            var res = new PrintableList<LiteralContextDependentNumber>();
             while (reader.Position < end)
             {
-                res.Add(Parse(reader, end - reader.Position));
+                res.Add(Parse(reader, end - reader.Position, type));
             }
             return res;
+        }
+
+        public override string ToString()
+        {
+            if (Value != null)
+                return Value.ToString();
+            return base.ToString();
         }
     }
 }

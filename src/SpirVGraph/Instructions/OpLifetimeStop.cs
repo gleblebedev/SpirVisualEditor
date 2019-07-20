@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpLifetimeStop: Instruction
+    public partial class OpLifetimeStop: Instruction
     {
         public OpLifetimeStop()
         {
@@ -11,14 +12,13 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpLifetimeStop; } }
 
-		public uint Pointer { get; set; }
+		public Spv.IdRef Pointer { get; set; }
 		public uint Size { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Pointer", Pointer);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {

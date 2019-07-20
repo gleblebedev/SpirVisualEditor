@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using SpirVGraph.Instructions;
 
 namespace SpirVGraph.Spv
 {
     public class PairLiteralIntegerIdRef
     {
 	    public uint LiteralInteger { get; set; }
-	    public uint IdRef { get; set; }
+	    public Spv.IdRef IdRef { get; set; }
 	    public static PairLiteralIntegerIdRef Parse(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;

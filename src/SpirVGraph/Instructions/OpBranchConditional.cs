@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpBranchConditional: Instruction
+    public partial class OpBranchConditional: Instruction
     {
         public OpBranchConditional()
         {
@@ -11,16 +12,17 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpBranchConditional; } }
 
-		public uint Condition { get; set; }
-		public uint TrueLabel { get; set; }
-		public uint FalseLabel { get; set; }
+		public Spv.IdRef Condition { get; set; }
+		public Spv.IdRef TrueLabel { get; set; }
+		public Spv.IdRef FalseLabel { get; set; }
 		public IList<uint> Branchweights { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Condition", Condition);
+		    yield return new ReferenceProperty("TrueLabel", TrueLabel);
+		    yield return new ReferenceProperty("FalseLabel", FalseLabel);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {

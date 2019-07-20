@@ -13,6 +13,11 @@ namespace SpirVGraph.Instructions
 
         public abstract Op OpCode { get; }
 
+        public virtual IEnumerable<ReferenceProperty> GetReferences()
+        {
+            yield break;
+        }
+
         public virtual void Parse(WordReader reader, uint wordCount)
         {
             for (uint i = 1; i < wordCount; ++i)

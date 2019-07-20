@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpGroupWaitEvents: Instruction
+    public partial class OpGroupWaitEvents: Instruction
     {
         public OpGroupWaitEvents()
         {
@@ -12,14 +13,14 @@ namespace SpirVGraph.Instructions
         public override Op OpCode { get { return Op.OpGroupWaitEvents; } }
 
 		public uint Execution { get; set; }
-		public uint NumEvents { get; set; }
-		public uint EventsList { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+		public Spv.IdRef NumEvents { get; set; }
+		public Spv.IdRef EventsList { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("NumEvents", NumEvents);
+		    yield return new ReferenceProperty("EventsList", EventsList);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {

@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpEntryPoint: Instruction
+    public partial class OpEntryPoint: Instruction
     {
         public OpEntryPoint()
         {
@@ -12,15 +13,16 @@ namespace SpirVGraph.Instructions
         public override Op OpCode { get { return Op.OpEntryPoint; } }
 
 		public Spv.ExecutionModel ExecutionModel { get; set; }
-		public uint EntryPoint { get; set; }
+		public Spv.IdRef EntryPoint { get; set; }
 		public string Name { get; set; }
-		public IList<uint> Interface { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+		public IList<Spv.IdRef> Interface { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("EntryPoint", EntryPoint);
+			for (int i=0; i<Interface.Count; ++i)
+				yield return new ReferenceProperty("Interface"+i, Interface[i]);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {

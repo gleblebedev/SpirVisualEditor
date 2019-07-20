@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpSubgroupBlockWriteINTEL: Instruction
+    public partial class OpSubgroupBlockWriteINTEL: Instruction
     {
         public OpSubgroupBlockWriteINTEL()
         {
@@ -11,14 +12,14 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpSubgroupBlockWriteINTEL; } }
 
-		public uint Ptr { get; set; }
-		public uint Data { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+		public Spv.IdRef Ptr { get; set; }
+		public Spv.IdRef Data { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Ptr", Ptr);
+		    yield return new ReferenceProperty("Data", Data);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {

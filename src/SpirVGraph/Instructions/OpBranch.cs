@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpBranch: Instruction
+    public partial class OpBranch: Instruction
     {
         public OpBranch()
         {
@@ -11,13 +12,12 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpBranch; } }
 
-		public uint TargetLabel { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+		public Spv.IdRef TargetLabel { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("TargetLabel", TargetLabel);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {

@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpEnqueueMarker: Instruction
+    public partial class OpEnqueueMarker: InstructionWithId
     {
         public OpEnqueueMarker()
         {
@@ -11,24 +12,26 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpEnqueueMarker; } }
 
-		public uint IdResultType { get; set; }
-		public uint IdResult { get; set; }
-		public uint Queue { get; set; }
-		public uint NumEvents { get; set; }
-		public uint WaitEvents { get; set; }
-		public uint RetEvent { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = IdResult;
-            return true;
-        }
+		public Spv.IdRef<TypeInstruction> IdResultType { get; set; }
+		public Spv.IdRef Queue { get; set; }
+		public Spv.IdRef NumEvents { get; set; }
+		public Spv.IdRef WaitEvents { get; set; }
+		public Spv.IdRef RetEvent { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Queue", Queue);
+		    yield return new ReferenceProperty("NumEvents", NumEvents);
+		    yield return new ReferenceProperty("WaitEvents", WaitEvents);
+		    yield return new ReferenceProperty("RetEvent", RetEvent);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
 		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
 		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+            reader.Instructions.Add(this);
 		    Queue = Spv.IdRef.Parse(reader, end-reader.Position);
 		    NumEvents = Spv.IdRef.Parse(reader, end-reader.Position);
 		    WaitEvents = Spv.IdRef.Parse(reader, end-reader.Position);

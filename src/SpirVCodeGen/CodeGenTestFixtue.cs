@@ -53,10 +53,10 @@ namespace SpirVCodeGen
             {
                 text = new FlagTemplate(operandKind).TransformText();
             }
-            else if (operandKind.category == "Id")
-            {
-                text = new IdTemplate(operandKind).TransformText();
-            }
+            //else if (operandKind.category == "Id")
+            //{
+            //    text = new IdTemplate(operandKind).TransformText();
+            //}
             else if (operandKind.category == "Composite")
             {
                 text = new CompositeTemplate(operandKind).TransformText();

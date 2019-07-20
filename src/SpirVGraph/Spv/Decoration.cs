@@ -347,7 +347,7 @@ namespace SpirVGraph.Spv
         public class HlslCounterBufferGOOGLE: Decoration
         {
             public HlslCounterBufferGOOGLE():base(Enumerant.HlslCounterBufferGOOGLE){}
-            public uint CounterBuffer { get; set; }
+            public IdRef CounterBuffer { get; set; }
             public new static HlslCounterBufferGOOGLE Parse(WordReader reader, uint wordCount)
             {
 				var end = reader.Position+wordCount;

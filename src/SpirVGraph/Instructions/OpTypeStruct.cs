@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpTypeStruct: Instruction
+    public partial class OpTypeStruct: TypeInstruction
     {
         public OpTypeStruct()
         {
@@ -11,19 +12,19 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpTypeStruct; } }
 
-		public uint IdResult { get; set; }
-		public IList<uint> MemberTypes { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = IdResult;
-            return true;
-        }
+		public IList<Spv.IdRef> MemberTypes { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+			for (int i=0; i<MemberTypes.Count; ++i)
+				yield return new ReferenceProperty("MemberTypes"+i, MemberTypes[i]);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
 		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+            reader.Instructions.Add(this);
 		    MemberTypes = Spv.IdRef.ParseCollection(reader, end-reader.Position);
         }
 

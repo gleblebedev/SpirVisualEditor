@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpMemoryModel: Instruction
+    public partial class OpMemoryModel: Instruction
     {
         public OpMemoryModel()
         {
@@ -13,12 +14,10 @@ namespace SpirVGraph.Instructions
 
 		public Spv.AddressingModel AddressingModel { get; set; }
 		public Spv.MemoryModel MemoryModel { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {

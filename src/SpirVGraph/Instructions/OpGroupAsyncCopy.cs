@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpGroupAsyncCopy: Instruction
+    public partial class OpGroupAsyncCopy: InstructionWithId
     {
         public OpGroupAsyncCopy()
         {
@@ -11,26 +12,29 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpGroupAsyncCopy; } }
 
-		public uint IdResultType { get; set; }
-		public uint IdResult { get; set; }
+		public Spv.IdRef<TypeInstruction> IdResultType { get; set; }
 		public uint Execution { get; set; }
-		public uint Destination { get; set; }
-		public uint Source { get; set; }
-		public uint NumElements { get; set; }
-		public uint Stride { get; set; }
-		public uint Event { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = IdResult;
-            return true;
-        }
+		public Spv.IdRef Destination { get; set; }
+		public Spv.IdRef Source { get; set; }
+		public Spv.IdRef NumElements { get; set; }
+		public Spv.IdRef Stride { get; set; }
+		public Spv.IdRef Event { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Destination", Destination);
+		    yield return new ReferenceProperty("Source", Source);
+		    yield return new ReferenceProperty("NumElements", NumElements);
+		    yield return new ReferenceProperty("Stride", Stride);
+		    yield return new ReferenceProperty("Event", Event);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
 		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
 		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+            reader.Instructions.Add(this);
 		    Execution = Spv.IdScope.Parse(reader, end-reader.Position);
 		    Destination = Spv.IdRef.Parse(reader, end-reader.Position);
 		    Source = Spv.IdRef.Parse(reader, end-reader.Position);

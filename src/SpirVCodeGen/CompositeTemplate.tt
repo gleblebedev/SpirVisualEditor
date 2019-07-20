@@ -5,6 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 using System;
 using System.Collections.Generic;
+using SpirVGraph.Instructions;
 
 namespace SpirVGraph.Spv
 {

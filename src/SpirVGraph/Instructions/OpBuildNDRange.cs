@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpBuildNDRange: Instruction
+    public partial class OpBuildNDRange: InstructionWithId
     {
         public OpBuildNDRange()
         {
@@ -11,23 +12,24 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpBuildNDRange; } }
 
-		public uint IdResultType { get; set; }
-		public uint IdResult { get; set; }
-		public uint GlobalWorkSize { get; set; }
-		public uint LocalWorkSize { get; set; }
-		public uint GlobalWorkOffset { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = IdResult;
-            return true;
-        }
+		public Spv.IdRef<TypeInstruction> IdResultType { get; set; }
+		public Spv.IdRef GlobalWorkSize { get; set; }
+		public Spv.IdRef LocalWorkSize { get; set; }
+		public Spv.IdRef GlobalWorkOffset { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("GlobalWorkSize", GlobalWorkSize);
+		    yield return new ReferenceProperty("LocalWorkSize", LocalWorkSize);
+		    yield return new ReferenceProperty("GlobalWorkOffset", GlobalWorkOffset);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
 		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
 		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+            reader.Instructions.Add(this);
 		    GlobalWorkSize = Spv.IdRef.Parse(reader, end-reader.Position);
 		    LocalWorkSize = Spv.IdRef.Parse(reader, end-reader.Position);
 		    GlobalWorkOffset = Spv.IdRef.Parse(reader, end-reader.Position);

@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpGenericCastToPtr: Instruction
+    public partial class OpGenericCastToPtr: InstructionWithId
     {
         public OpGenericCastToPtr()
         {
@@ -11,21 +12,20 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpGenericCastToPtr; } }
 
-		public uint IdResultType { get; set; }
-		public uint IdResult { get; set; }
-		public uint Pointer { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = IdResult;
-            return true;
-        }
+		public Spv.IdRef<TypeInstruction> IdResultType { get; set; }
+		public Spv.IdRef Pointer { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Pointer", Pointer);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
 		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
 		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+            reader.Instructions.Add(this);
 		    Pointer = Spv.IdRef.Parse(reader, end-reader.Position);
         }
 

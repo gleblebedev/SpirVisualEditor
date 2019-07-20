@@ -7,11 +7,14 @@ namespace SpirVCodeGen
     {
         public static string GetTypeName(string kind)
         {
+            if (kind == "IdResultType")
+                return "Spv.IdRef<TypeInstruction>";
+            if (kind == "IdRef")
+                return "Spv.IdRef";
             if (IsId(kind))
                 return "uint";
             switch (kind)
             {
-                case "LiteralContextDependentNumber":
                 case "LiteralExtInstInteger":
                 case "LiteralInteger":
                 case "LiteralSpecConstantOpInteger":
@@ -31,11 +34,15 @@ namespace SpirVCodeGen
         }
         public static string GetOperandParser(Operand operand)
         {
+            if (operand.kind == "LiteralContextDependentNumber")
+            {
+                return "Spv." + operand.kind + ".ParseOptional(reader, end-reader.Position, IdResultType.Instruction)";
+            }
             if (operand.quantifier == "?")
-                return "Spv." + operand.kind + ".ParseOptional";
+                return "Spv." + operand.kind + ".ParseOptional(reader, end-reader.Position)";
             if (operand.quantifier == "*")
-                return "Spv." + operand.kind + ".ParseCollection";
-            return "Spv." + operand.kind + ".Parse";
+                return "Spv." + operand.kind + ".ParseCollection(reader, end-reader.Position)";
+            return "Spv." + operand.kind + ".Parse(reader, end-reader.Position)";
         }
 
         public static string GetOperandType(Operand operand)

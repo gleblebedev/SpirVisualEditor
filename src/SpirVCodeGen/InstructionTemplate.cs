@@ -28,33 +28,50 @@ namespace SpirVCodeGen
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using System.Collections.Generic;\r\nusing SpirVGraph.Spv;\r\n\r\nnamespace SpirVGraph." +
-                    "Instructions\r\n{\r\n    public class ");
+            this.Write("using System.Collections.Generic;\r\nusing SpirVGraph.Spv;\r\n\r\n");
             
-            #line 11 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(opname));
-            
-            #line default
-            #line hidden
-            this.Write(": Instruction\r\n    {\r\n        public ");
-            
-            #line 13 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(opname));
+            #line 9 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+
+	var idResult = operands.FirstOrDefault(_=>_.kind == "IdResult");
+	var idResultType = operands.FirstOrDefault(_=>_.kind == "IdResultType");
+	var isType = idResult!=null && opname.StartsWith("OpType");
+
             
             #line default
             #line hidden
-            this.Write("()\r\n        {\r\n        }\r\n\r\n        public override Op OpCode { get { return Op.");
+            this.Write("\r\nnamespace SpirVGraph.Instructions\r\n{\r\n    public partial class ");
             
             #line 17 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(opname));
             
             #line default
             #line hidden
-            this.Write("; } }\r\n\r\n");
+            this.Write(": ");
+            
+            #line 17 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(isType ? "TypeInstruction" : (idResult!=null ? "InstructionWithId" : "Instruction")));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    {\r\n        public ");
             
             #line 19 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(opname));
+            
+            #line default
+            #line hidden
+            this.Write("()\r\n        {\r\n        }\r\n\r\n        public override Op OpCode { get { return Op.");
+            
+            #line 23 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(opname));
+            
+            #line default
+            #line hidden
+            this.Write("; } }\r\n\r\n");
+            
+            #line 25 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
 
-	foreach(var op in operands)
+	foreach(var op in operands.Where(_=>_.kind != "IdResult"))
 	{
 
             
@@ -62,61 +79,100 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("\t\tpublic ");
             
-            #line 23 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+            #line 29 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Utils.GetOperandType(op)));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 23 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+            #line 29 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Utils.GetOperandName(op)));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n");
             
-            #line 24 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
-
-	}
-
-            
-            #line default
-            #line hidden
-            this.Write("\r\n        public override bool TryGetResultId(out uint id)\r\n        {\r\n");
-            
             #line 30 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
 
-	if(operands.Any(_=>_.kind == "IdResult"))
-	{
-
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\tid = IdResult;\r\n            return true;\r\n");
-            
-            #line 36 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
-
 	}
-	else
-	{
 
             
             #line default
             #line hidden
-            this.Write("\t\t\tid = 0;\r\n            return false;\r\n");
+            this.Write("        public override IEnumerable<ReferenceProperty> GetReferences()\r\n\t\t{\r\n");
+            
+            #line 35 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+
+	foreach(var op in operands.Where(_=>_.kind == "IdRef"))
+	{
+		var operandName = Utils.GetOperandName(op);
+		if (op.quantifier == "*")
+		{
+
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\tfor (int i=0; i<");
+            
+            #line 42 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operandName));
+            
+            #line default
+            #line hidden
+            this.Write(".Count; ++i)\r\n\t\t\t\tyield return new ReferenceProperty(\"");
             
             #line 43 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operandName));
+            
+            #line default
+            #line hidden
+            this.Write("\"+i, ");
+            
+            #line 43 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operandName));
+            
+            #line default
+            #line hidden
+            this.Write("[i]);\r\n");
+            
+            #line 44 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
 
+		}
+		else
+		{
+
+            
+            #line default
+            #line hidden
+            this.Write("\t\t    yield return new ReferenceProperty(\"");
+            
+            #line 49 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operandName));
+            
+            #line default
+            #line hidden
+            this.Write("\", ");
+            
+            #line 49 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(operandName));
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n");
+            
+            #line 50 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+
+		}
 	}
 
             
             #line default
             #line hidden
-            this.Write("        }\r\n\r\n        public override void Parse(WordReader reader, uint wordCount" +
-                    ")\r\n        {\r\n\t\t\tvar end = reader.Position+wordCount-1;\r\n");
+            this.Write("\t\t    yield break;\r\n\t\t}\r\n\r\n        public override void Parse(WordReader reader, " +
+                    "uint wordCount)\r\n        {\r\n\t\t\tvar end = reader.Position+wordCount-1;\r\n");
             
-            #line 51 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+            #line 60 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
 
 	foreach(var op in operands)
 	{
@@ -126,22 +182,33 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("\t\t    ");
             
-            #line 55 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+            #line 64 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Utils.GetOperandName(op)));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 55 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+            #line 64 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Utils.GetOperandParser(op)));
             
             #line default
             #line hidden
-            this.Write("(reader, end-reader.Position);\r\n");
+            this.Write(";\r\n");
             
-            #line 56 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+            #line 65 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
 
+		if (op.kind == "IdResult")
+		{
+
+            
+            #line default
+            #line hidden
+            this.Write("            reader.Instructions.Add(this);\r\n");
+            
+            #line 70 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+
+		}
 	}
 
             
@@ -149,10 +216,8 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("        }\r\n\r\n        public override string ToString()\r\n        {\r\n");
             
-            #line 63 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
+            #line 78 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionTemplate.tt"
 
-var idResult = operands.FirstOrDefault(_=>_.kind == "IdResult");
-var idResultType = operands.FirstOrDefault(_=>_.kind == "IdResultType");
 if (idResultType != null && idResult != null)
 {
 	WriteLine("            return $\"{IdResultType} {IdResult} = {OpCode} "+string.Join(" ", operands.Where(_=>_!=idResult && _!=idResultType).Select(_=>"{"+Utils.GetOperandName(_)+"}"))+"\";");

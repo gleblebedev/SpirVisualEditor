@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpGroupAll: Instruction
+    public partial class OpGroupAll: InstructionWithId
     {
         public OpGroupAll()
         {
@@ -11,22 +12,21 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpGroupAll; } }
 
-		public uint IdResultType { get; set; }
-		public uint IdResult { get; set; }
+		public Spv.IdRef<TypeInstruction> IdResultType { get; set; }
 		public uint Execution { get; set; }
-		public uint Predicate { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = IdResult;
-            return true;
-        }
+		public Spv.IdRef Predicate { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Predicate", Predicate);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
 		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
 		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+            reader.Instructions.Add(this);
 		    Execution = Spv.IdScope.Parse(reader, end-reader.Position);
 		    Predicate = Spv.IdRef.Parse(reader, end-reader.Position);
         }

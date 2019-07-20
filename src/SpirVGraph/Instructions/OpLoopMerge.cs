@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpLoopMerge: Instruction
+    public partial class OpLoopMerge: Instruction
     {
         public OpLoopMerge()
         {
@@ -11,15 +12,15 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpLoopMerge; } }
 
-		public uint MergeBlock { get; set; }
-		public uint ContinueTarget { get; set; }
+		public Spv.IdRef MergeBlock { get; set; }
+		public Spv.IdRef ContinueTarget { get; set; }
 		public Spv.LoopControl LoopControl { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("MergeBlock", MergeBlock);
+		    yield return new ReferenceProperty("ContinueTarget", ContinueTarget);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {

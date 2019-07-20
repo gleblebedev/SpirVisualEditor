@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpGroupFMinNonUniformAMD: Instruction
+    public partial class OpGroupFMinNonUniformAMD: InstructionWithId
     {
         public OpGroupFMinNonUniformAMD()
         {
@@ -11,23 +12,22 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpGroupFMinNonUniformAMD; } }
 
-		public uint IdResultType { get; set; }
-		public uint IdResult { get; set; }
+		public Spv.IdRef<TypeInstruction> IdResultType { get; set; }
 		public uint Execution { get; set; }
 		public Spv.GroupOperation Operation { get; set; }
-		public uint X { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = IdResult;
-            return true;
-        }
+		public Spv.IdRef X { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("X", X);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
 		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
 		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+            reader.Instructions.Add(this);
 		    Execution = Spv.IdScope.Parse(reader, end-reader.Position);
 		    Operation = Spv.GroupOperation.Parse(reader, end-reader.Position);
 		    X = Spv.IdRef.Parse(reader, end-reader.Position);

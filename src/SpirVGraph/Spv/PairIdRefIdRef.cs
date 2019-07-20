@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using SpirVGraph.Instructions;
 
 namespace SpirVGraph.Spv
 {
     public class PairIdRefIdRef
     {
-	    public uint IdRef { get; set; }
-	    public uint IdRef2 { get; set; }
+	    public Spv.IdRef IdRef { get; set; }
+	    public Spv.IdRef IdRef2 { get; set; }
 	    public static PairIdRefIdRef Parse(WordReader reader, uint wordCount)
         {
             var end = reader.Position + wordCount;

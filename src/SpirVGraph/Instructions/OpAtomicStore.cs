@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpAtomicStore: Instruction
+    public partial class OpAtomicStore: Instruction
     {
         public OpAtomicStore()
         {
@@ -11,16 +12,16 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpAtomicStore; } }
 
-		public uint Pointer { get; set; }
+		public Spv.IdRef Pointer { get; set; }
 		public uint Scope { get; set; }
 		public uint Semantics { get; set; }
-		public uint Value { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+		public Spv.IdRef Value { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Pointer", Pointer);
+		    yield return new ReferenceProperty("Value", Value);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {

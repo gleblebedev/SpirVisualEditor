@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpSwitch: Instruction
+    public partial class OpSwitch: Instruction
     {
         public OpSwitch()
         {
@@ -11,15 +12,15 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpSwitch; } }
 
-		public uint Selector { get; set; }
-		public uint Default { get; set; }
+		public Spv.IdRef Selector { get; set; }
+		public Spv.IdRef Default { get; set; }
 		public IList<Spv.PairLiteralIntegerIdRef> Target { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Selector", Selector);
+		    yield return new ReferenceProperty("Default", Default);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {

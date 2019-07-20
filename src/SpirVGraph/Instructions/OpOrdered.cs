@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpOrdered: Instruction
+    public partial class OpOrdered: InstructionWithId
     {
         public OpOrdered()
         {
@@ -11,22 +12,22 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpOrdered; } }
 
-		public uint IdResultType { get; set; }
-		public uint IdResult { get; set; }
-		public uint x { get; set; }
-		public uint y { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = IdResult;
-            return true;
-        }
+		public Spv.IdRef<TypeInstruction> IdResultType { get; set; }
+		public Spv.IdRef x { get; set; }
+		public Spv.IdRef y { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("x", x);
+		    yield return new ReferenceProperty("y", y);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
 		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
 		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+            reader.Instructions.Add(this);
 		    x = Spv.IdRef.Parse(reader, end-reader.Position);
 		    y = Spv.IdRef.Parse(reader, end-reader.Position);
         }

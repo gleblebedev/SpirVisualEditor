@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpMemberDecorate: Instruction
+    public partial class OpMemberDecorate: Instruction
     {
         public OpMemberDecorate()
         {
@@ -11,15 +12,14 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpMemberDecorate; } }
 
-		public uint StructureType { get; set; }
+		public Spv.IdRef StructureType { get; set; }
 		public uint Member { get; set; }
 		public Spv.Decoration Decoration { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("StructureType", StructureType);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {

@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpGetKernelWorkGroupSize: Instruction
+    public partial class OpGetKernelWorkGroupSize: InstructionWithId
     {
         public OpGetKernelWorkGroupSize()
         {
@@ -11,24 +12,26 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpGetKernelWorkGroupSize; } }
 
-		public uint IdResultType { get; set; }
-		public uint IdResult { get; set; }
-		public uint Invoke { get; set; }
-		public uint Param { get; set; }
-		public uint ParamSize { get; set; }
-		public uint ParamAlign { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = IdResult;
-            return true;
-        }
+		public Spv.IdRef<TypeInstruction> IdResultType { get; set; }
+		public Spv.IdRef Invoke { get; set; }
+		public Spv.IdRef Param { get; set; }
+		public Spv.IdRef ParamSize { get; set; }
+		public Spv.IdRef ParamAlign { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Invoke", Invoke);
+		    yield return new ReferenceProperty("Param", Param);
+		    yield return new ReferenceProperty("ParamSize", ParamSize);
+		    yield return new ReferenceProperty("ParamAlign", ParamAlign);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
 		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
 		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+            reader.Instructions.Add(this);
 		    Invoke = Spv.IdRef.Parse(reader, end-reader.Position);
 		    Param = Spv.IdRef.Parse(reader, end-reader.Position);
 		    ParamSize = Spv.IdRef.Parse(reader, end-reader.Position);

@@ -11,8 +11,6 @@ namespace SpirVGraph.NodeFactories
         private NodeFactoryVisibility _visibility;
         private IEnumerable<string> _inputTypes;
         private IEnumerable<string> _outputTypes;
-        private bool _hasEnterPins;
-        private bool _hasExitPins;
 
         public AbstractNodeFactory(ScriptNode prototype, NodeFactoryVisibility visibility)
         {

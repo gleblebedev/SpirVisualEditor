@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpGroupCommitReadPipe: Instruction
+    public partial class OpGroupCommitReadPipe: Instruction
     {
         public OpGroupCommitReadPipe()
         {
@@ -12,16 +13,18 @@ namespace SpirVGraph.Instructions
         public override Op OpCode { get { return Op.OpGroupCommitReadPipe; } }
 
 		public uint Execution { get; set; }
-		public uint Pipe { get; set; }
-		public uint ReserveId { get; set; }
-		public uint PacketSize { get; set; }
-		public uint PacketAlignment { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+		public Spv.IdRef Pipe { get; set; }
+		public Spv.IdRef ReserveId { get; set; }
+		public Spv.IdRef PacketSize { get; set; }
+		public Spv.IdRef PacketAlignment { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Pipe", Pipe);
+		    yield return new ReferenceProperty("ReserveId", ReserveId);
+		    yield return new ReferenceProperty("PacketSize", PacketSize);
+		    yield return new ReferenceProperty("PacketAlignment", PacketAlignment);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {

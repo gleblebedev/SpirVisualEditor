@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpSubgroupShuffleDownINTEL: Instruction
+    public partial class OpSubgroupShuffleDownINTEL: InstructionWithId
     {
         public OpSubgroupShuffleDownINTEL()
         {
@@ -11,23 +12,24 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpSubgroupShuffleDownINTEL; } }
 
-		public uint IdResultType { get; set; }
-		public uint IdResult { get; set; }
-		public uint Current { get; set; }
-		public uint Next { get; set; }
-		public uint Delta { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = IdResult;
-            return true;
-        }
+		public Spv.IdRef<TypeInstruction> IdResultType { get; set; }
+		public Spv.IdRef Current { get; set; }
+		public Spv.IdRef Next { get; set; }
+		public Spv.IdRef Delta { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Current", Current);
+		    yield return new ReferenceProperty("Next", Next);
+		    yield return new ReferenceProperty("Delta", Delta);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
 		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
 		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+            reader.Instructions.Add(this);
 		    Current = Spv.IdRef.Parse(reader, end-reader.Position);
 		    Next = Spv.IdRef.Parse(reader, end-reader.Position);
 		    Delta = Spv.IdRef.Parse(reader, end-reader.Position);

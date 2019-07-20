@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpImageWrite: Instruction
+    public partial class OpImageWrite: Instruction
     {
         public OpImageWrite()
         {
@@ -11,16 +12,17 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpImageWrite; } }
 
-		public uint Image { get; set; }
-		public uint Coordinate { get; set; }
-		public uint Texel { get; set; }
+		public Spv.IdRef Image { get; set; }
+		public Spv.IdRef Coordinate { get; set; }
+		public Spv.IdRef Texel { get; set; }
 		public Spv.ImageOperands ImageOperands { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Image", Image);
+		    yield return new ReferenceProperty("Coordinate", Coordinate);
+		    yield return new ReferenceProperty("Texel", Texel);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {

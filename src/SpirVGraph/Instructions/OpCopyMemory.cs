@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpCopyMemory: Instruction
+    public partial class OpCopyMemory: Instruction
     {
         public OpCopyMemory()
         {
@@ -11,15 +12,15 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpCopyMemory; } }
 
-		public uint Target { get; set; }
-		public uint Source { get; set; }
+		public Spv.IdRef Target { get; set; }
+		public Spv.IdRef Source { get; set; }
 		public Spv.MemoryAccess MemoryAccess { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Target", Target);
+		    yield return new ReferenceProperty("Source", Source);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {

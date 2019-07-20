@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpGroupBroadcast: Instruction
+    public partial class OpGroupBroadcast: InstructionWithId
     {
         public OpGroupBroadcast()
         {
@@ -11,23 +12,23 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpGroupBroadcast; } }
 
-		public uint IdResultType { get; set; }
-		public uint IdResult { get; set; }
+		public Spv.IdRef<TypeInstruction> IdResultType { get; set; }
 		public uint Execution { get; set; }
-		public uint Value { get; set; }
-		public uint LocalId { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = IdResult;
-            return true;
-        }
+		public Spv.IdRef Value { get; set; }
+		public Spv.IdRef LocalId { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Value", Value);
+		    yield return new ReferenceProperty("LocalId", LocalId);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {
 			var end = reader.Position+wordCount-1;
 		    IdResultType = Spv.IdResultType.Parse(reader, end-reader.Position);
 		    IdResult = Spv.IdResult.Parse(reader, end-reader.Position);
+            reader.Instructions.Add(this);
 		    Execution = Spv.IdScope.Parse(reader, end-reader.Position);
 		    Value = Spv.IdRef.Parse(reader, end-reader.Position);
 		    LocalId = Spv.IdRef.Parse(reader, end-reader.Position);

@@ -28,17 +28,17 @@ namespace SpirVCodeGen
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using System;\r\nusing System.Collections.Generic;\r\n\r\nnamespace SpirVGraph.Spv\r\n{\r\n" +
-                    "    public class ");
+            this.Write("using System;\r\nusing System.Collections.Generic;\r\nusing SpirVGraph.Instructions;\r" +
+                    "\n\r\nnamespace SpirVGraph.Spv\r\n{\r\n    public class ");
             
-            #line 11 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
+            #line 12 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n");
             
-            #line 13 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
+            #line 14 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
 
 	foreach (var baseType in bases)
 	{
@@ -48,21 +48,21 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("\t    public ");
             
-            #line 17 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
+            #line 18 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(baseType.Type));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 17 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
+            #line 18 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(baseType.Name));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n");
             
-            #line 18 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
+            #line 19 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
 
 	}
 
@@ -71,7 +71,7 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("\t    public static ");
             
-            #line 21 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
+            #line 22 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
@@ -79,14 +79,14 @@ namespace SpirVCodeGen
             this.Write(" Parse(WordReader reader, uint wordCount)\r\n        {\r\n            var end = reade" +
                     "r.Position + wordCount;\r\n\t\t\tvar res = new ");
             
-            #line 24 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
+            #line 25 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
             #line hidden
             this.Write("();\r\n");
             
-            #line 25 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
+            #line 26 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
 
 	foreach (var baseType in bases)
 	{
@@ -96,21 +96,21 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("\t\t\tres.");
             
-            #line 29 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
+            #line 30 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(baseType.Name));
             
             #line default
             #line hidden
             this.Write(" = Spv.");
             
-            #line 29 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
+            #line 30 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(baseType.Base));
             
             #line default
             #line hidden
             this.Write(".Parse(reader, end-reader.Position);\r\n");
             
-            #line 30 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
+            #line 31 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
 
 	}
 
@@ -119,7 +119,7 @@ namespace SpirVCodeGen
             #line hidden
             this.Write("\t\t\treturn res;\r\n        }\r\n\r\n        public static ");
             
-            #line 36 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
+            #line 37 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
@@ -128,7 +128,7 @@ namespace SpirVCodeGen
                     " 0) return null;\r\n            return Parse(reader, wordCount);\r\n        }\r\n\r\n\t\t\r" +
                     "\n        public static IList<");
             
-            #line 43 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
+            #line 44 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
@@ -136,7 +136,7 @@ namespace SpirVCodeGen
             this.Write("> ParseCollection(WordReader reader, uint wordCount)\r\n        {\r\n            var " +
                     "end = reader.Position + wordCount;\r\n            var res = new PrintableList<");
             
-            #line 46 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
+            #line 47 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default

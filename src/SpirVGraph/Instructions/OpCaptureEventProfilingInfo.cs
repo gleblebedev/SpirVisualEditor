@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpCaptureEventProfilingInfo: Instruction
+    public partial class OpCaptureEventProfilingInfo: Instruction
     {
         public OpCaptureEventProfilingInfo()
         {
@@ -11,15 +12,16 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpCaptureEventProfilingInfo; } }
 
-		public uint Event { get; set; }
-		public uint ProfilingInfo { get; set; }
-		public uint Value { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+		public Spv.IdRef Event { get; set; }
+		public Spv.IdRef ProfilingInfo { get; set; }
+		public Spv.IdRef Value { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Event", Event);
+		    yield return new ReferenceProperty("ProfilingInfo", ProfilingInfo);
+		    yield return new ReferenceProperty("Value", Value);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using SpirVGraph.Instructions;
+using SpirVGraph.Spv;
 
 namespace SpirVGraph
 {
@@ -26,6 +27,25 @@ namespace SpirVGraph
             {
                 var instruction = InstructionFactory.Parse(reader);
                 shader.Instructions.Add(instruction);
+            }
+
+            foreach (var instruction in shader.Instructions)
+            {
+                switch (instruction.OpCode)
+                {
+                    case Op.OpName:
+                    {
+                        var op = (OpName) instruction;
+                        op.Target.Instruction.OpName = op;
+                        break;
+                    }
+                    case Op.OpDecorate:
+                    {
+                        var op = (OpDecorate)instruction;
+                        op.Target.Instruction.Decorations.Add(op);
+                        break;
+                    }
+                }
             }
             return shader;
         }
@@ -53,13 +73,13 @@ namespace SpirVGraph
 
         public static Shader Parse(BinaryReader reader, uint wordCount)
         {
-            return Parse(new WordReader(reader), wordCount);
+            return Parse(new WordReader(reader, new InstructionRegistry()), wordCount);
         }
         public static Shader Parse(BinaryReader reader)
         {
             var length = reader.BaseStream.Length - reader.BaseStream.Position;
             if (length % 4 != 0) throw new FormatException("SpirV bytecode length should be divisable by 4");
-            return Parse(new WordReader(reader), (uint)length/4);
+            return Parse(new WordReader(reader, new InstructionRegistry()), (uint)length/4);
         }
         public static Shader Parse(byte[] spirVBytes)
         {

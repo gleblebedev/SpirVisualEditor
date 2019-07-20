@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using SpirVGraph.Spv;
 
+
 namespace SpirVGraph.Instructions
 {
-    public class OpSubgroupImageBlockWriteINTEL: Instruction
+    public partial class OpSubgroupImageBlockWriteINTEL: Instruction
     {
         public OpSubgroupImageBlockWriteINTEL()
         {
@@ -11,15 +12,16 @@ namespace SpirVGraph.Instructions
 
         public override Op OpCode { get { return Op.OpSubgroupImageBlockWriteINTEL; } }
 
-		public uint Image { get; set; }
-		public uint Coordinate { get; set; }
-		public uint Data { get; set; }
-
-        public override bool TryGetResultId(out uint id)
-        {
-			id = 0;
-            return false;
-        }
+		public Spv.IdRef Image { get; set; }
+		public Spv.IdRef Coordinate { get; set; }
+		public Spv.IdRef Data { get; set; }
+        public override IEnumerable<ReferenceProperty> GetReferences()
+		{
+		    yield return new ReferenceProperty("Image", Image);
+		    yield return new ReferenceProperty("Coordinate", Coordinate);
+		    yield return new ReferenceProperty("Data", Data);
+		    yield break;
+		}
 
         public override void Parse(WordReader reader, uint wordCount)
         {
