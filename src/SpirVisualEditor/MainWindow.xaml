@@ -7,7 +7,10 @@
         xmlns:views="clr-namespace:Toe.Scripting.WPF.Views;assembly=Toe.Scripting.WPF"
         xmlns:controls="clr-namespace:SpirVisualEditor.Controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Height="450" Width="800">
+    <Window.Title>
+        <Binding Path="FileName" StringFormat="SpirV Visual Editor: {0}" />
+    </Window.Title>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

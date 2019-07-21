@@ -36,18 +36,22 @@ namespace SpirVisualEditor.ViewModel
         private void Open()
         {
             var ofd = new OpenFileDialog();
-            ofd.Filter = "SpirV (*.spv)|*.spv|Vertex Shader (*.vert.glsl)|*.vert.glsl|Fragment Shader (*.frag.glsl)|*.frag.glsl";
+            ofd.Filter = "SpirV (*.spv)|*.spv|Vertex Shader (*.vert.glsl)|*.vert.glsl;*.vert|Fragment Shader (*.frag.glsl)|*.frag.glsl;*.frag|Compute Shader (*.comp.glsl)|*.comp.glsl;*.comp";
             if (ofd.ShowDialog() == true)
             {
                 FileName = ofd.FileName;
                 byte[] bytes;
-                if (FileName.EndsWith(".vert.glsl"))
+                if (FileName.EndsWith(".vert.glsl", StringComparison.InvariantCultureIgnoreCase) || FileName.EndsWith(".vert", StringComparison.InvariantCultureIgnoreCase))
                 {
                     bytes = SpirvCompilation.CompileGlslToSpirv(File.ReadAllText(FileName), FileName, ShaderStages.Vertex, GlslCompileOptions.Default).SpirvBytes;
                 }
-                else if (FileName.EndsWith(".frag.glsl"))
+                else if (FileName.EndsWith(".frag.glsl", StringComparison.InvariantCultureIgnoreCase) || FileName.EndsWith(".frag", StringComparison.InvariantCultureIgnoreCase))
                 {
                     bytes = SpirvCompilation.CompileGlslToSpirv(File.ReadAllText(FileName), FileName, ShaderStages.Fragment, GlslCompileOptions.Default).SpirvBytes;
+                }
+                else if (FileName.EndsWith(".comp.glsl", StringComparison.InvariantCultureIgnoreCase) || FileName.EndsWith(".comp", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    bytes = SpirvCompilation.CompileGlslToSpirv(File.ReadAllText(FileName), FileName, ShaderStages.Compute, GlslCompileOptions.Default).SpirvBytes;
                 }
                 else
                 {
