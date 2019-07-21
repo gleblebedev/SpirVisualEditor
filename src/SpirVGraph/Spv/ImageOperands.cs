@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class ImageOperands : ValueEnum
+    public partial class ImageOperands : ValueEnum
     {
 		[Flags]
         public enum Enumerant
@@ -32,7 +32,9 @@ namespace SpirVGraph.Spv
         public static ImageOperands Parse(WordReader reader, uint wordCount)
         {
             var id = (Enumerant) reader.ReadWord();
-			return new ImageOperands(id);
+            var imageOperands = new ImageOperands(id);
+            imageOperands.PostParse(reader, wordCount - 1);
+            return imageOperands;
         }
 
         public static ImageOperands ParseOptional(WordReader reader, uint wordCount)

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class <#= Name #> : ValueEnum
+    public partial class <#= Name #> : ValueEnum
     {
 		[Flags]
         public enum Enumerant
@@ -39,7 +39,9 @@ namespace SpirVGraph.Spv
         public static <#= Name #> Parse(WordReader reader, uint wordCount)
         {
             var id = (Enumerant) reader.ReadWord();
-			return new <#= Name #>(id);
+            var value = new <#= Name #>(id);
+            value.PostParse(reader, wordCount - 1);
+            return value;
         }
 
         public static <#= Name #> ParseOptional(WordReader reader, uint wordCount)

@@ -29,7 +29,7 @@ namespace SpirVCodeGen
         public virtual string TransformText()
         {
             this.Write("using System;\r\nusing System.Collections.Generic;\r\n\r\nnamespace SpirVGraph.Spv\r\n{\r\n" +
-                    "    public class ");
+                    "    public partial class ");
             
             #line 11 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
@@ -103,16 +103,17 @@ namespace SpirVCodeGen
             #line default
             #line hidden
             this.Write(" Parse(WordReader reader, uint wordCount)\r\n        {\r\n            var id = (Enume" +
-                    "rant) reader.ReadWord();\r\n\t\t\treturn new ");
+                    "rant) reader.ReadWord();\r\n            var value = new ");
             
             #line 42 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
             #line hidden
-            this.Write("(id);\r\n        }\r\n\r\n        public static ");
+            this.Write("(id);\r\n            value.PostParse(reader, wordCount - 1);\r\n            return va" +
+                    "lue;\r\n        }\r\n\r\n        public static ");
             
-            #line 45 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
+            #line 47 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
@@ -121,7 +122,7 @@ namespace SpirVCodeGen
                     " 0) return null;\r\n            return Parse(reader, wordCount);\r\n        }\r\n\r\n   " +
                     "     public static IList<");
             
-            #line 51 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
+            #line 53 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
@@ -129,7 +130,7 @@ namespace SpirVCodeGen
             this.Write("> ParseCollection(WordReader reader, uint wordCount)\r\n        {\r\n            var " +
                     "end = reader.Position + wordCount;\r\n            var res = new PrintableList<");
             
-            #line 54 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
+            #line 56 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\FlagTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default

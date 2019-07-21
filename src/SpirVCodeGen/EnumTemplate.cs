@@ -28,8 +28,8 @@ namespace SpirVCodeGen
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using System.Collections.Generic;\r\n\r\nnamespace SpirVGraph.Spv\r\n{\r\n    public clas" +
-                    "s ");
+            this.Write("using System.Collections.Generic;\r\n\r\nnamespace SpirVGraph.Spv\r\n{\r\n    public part" +
+                    "ial class ");
             
             #line 10 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));

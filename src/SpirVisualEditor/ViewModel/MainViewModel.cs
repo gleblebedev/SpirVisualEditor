@@ -4,6 +4,8 @@ using Microsoft.Win32;
 using SpirVGraph;
 using Toe.Scripting.WPF;
 using Toe.Scripting.WPF.ViewModels;
+using Veldrid;
+using Veldrid.SPIRV;
 
 namespace SpirVisualEditor.ViewModel
 {
@@ -34,11 +36,24 @@ namespace SpirVisualEditor.ViewModel
         private void Open()
         {
             var ofd = new OpenFileDialog();
-            ofd.Filter = "SpirV (*.spv) | *.spv";
+            ofd.Filter = "SpirV (*.spv)|*.spv|Vertex Shader (*.vert.glsl)|*.vert.glsl|Fragment Shader (*.frag.glsl)|*.frag.glsl";
             if (ofd.ShowDialog() == true)
             {
                 FileName = ofd.FileName;
-                ScriptViewModel.Script = SpirVConverter.Deserialize(File.ReadAllBytes(FileName));
+                byte[] bytes;
+                if (FileName.EndsWith(".vert.glsl"))
+                {
+                    bytes = SpirvCompilation.CompileGlslToSpirv(File.ReadAllText(FileName), FileName, ShaderStages.Vertex, GlslCompileOptions.Default).SpirvBytes;
+                }
+                else if (FileName.EndsWith(".frag.glsl"))
+                {
+                    bytes = SpirvCompilation.CompileGlslToSpirv(File.ReadAllText(FileName), FileName, ShaderStages.Fragment, GlslCompileOptions.Default).SpirvBytes;
+                }
+                else
+                {
+                    bytes = File.ReadAllBytes(FileName);
+                }
+                ScriptViewModel.Script = SpirVConverter.Deserialize(bytes);
                 ScriptViewModel.ResetUndoStack();
                 ScriptViewModel.HasUnsavedChanged = false;
             }

@@ -184,6 +184,9 @@
     <Reference Include="Veldrid.SDL2, Version=4.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Veldrid.SDL2.4.6.1\lib\netstandard2.0\Veldrid.SDL2.dll</HintPath>
     </Reference>
+    <Reference Include="Veldrid.SPIRV, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Veldrid.SPIRV.1.0.11\lib\netstandard2.0\Veldrid.SPIRV.dll</HintPath>
+    </Reference>
     <Reference Include="Veldrid.StartupUtilities, Version=4.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Veldrid.StartupUtilities.4.6.1\lib\netstandard2.0\Veldrid.StartupUtilities.dll</HintPath>
     </Reference>
@@ -268,5 +271,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Veldrid.SDL2.4.6.1\build\net40\Veldrid.SDL2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Veldrid.SDL2.4.6.1\build\net40\Veldrid.SDL2.targets'))" />
+    <Error Condition="!Exists('..\packages\Veldrid.SPIRV.1.0.11\build\net40\Veldrid.SPIRV.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Veldrid.SPIRV.1.0.11\build\net40\Veldrid.SPIRV.targets'))" />
   </Target>
+  <Import Project="..\packages\Veldrid.SPIRV.1.0.11\build\net40\Veldrid.SPIRV.targets" Condition="Exists('..\packages\Veldrid.SPIRV.1.0.11\build\net40\Veldrid.SPIRV.targets')" />
 </Project>
