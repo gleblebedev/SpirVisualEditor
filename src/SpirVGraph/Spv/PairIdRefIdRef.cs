@@ -34,5 +34,10 @@ namespace SpirVGraph.Spv
             }
             return res;
         }
+
+        public override string ToString()
+        {
+            return $"{{ {IdRef} {IdRef2} }}";
+        }
 	}
 }

@@ -143,7 +143,16 @@ namespace SpirVCodeGen
             #line hidden
             this.Write(">();\r\n            while (reader.Position < end)\r\n            {\r\n                r" +
                     "es.Add(Parse(reader, end-reader.Position));\r\n            }\r\n            return r" +
-                    "es;\r\n        }\r\n\t}\r\n}");
+                    "es;\r\n        }\r\n\r\n        public override string ToString()\r\n        {\r\n");
+            
+            #line 57 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\CompositeTemplate.tt"
+
+	WriteLine("            return $\"{{ "+string.Join(" ", bases.Select(_=>"{"+_.Name+"}"))+" }}\";");
+
+            
+            #line default
+            #line hidden
+            this.Write("        }\r\n\t}\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }
