@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class SelectionControl : ValueEnum
+    public partial class SelectionControl : ValueEnum
     {
 		[Flags]
         public enum Enumerant
@@ -20,10 +20,15 @@ namespace SpirVGraph.Spv
 
         public Enumerant Value { get; }
 
+
+
         public static SelectionControl Parse(WordReader reader, uint wordCount)
         {
+			var end = reader.Position+wordCount;
             var id = (Enumerant) reader.ReadWord();
-			return new SelectionControl(id);
+            var value = new SelectionControl(id);
+            value.PostParse(reader, wordCount - 1);
+            return value;
         }
 
         public static SelectionControl ParseOptional(WordReader reader, uint wordCount)

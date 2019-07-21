@@ -36,10 +36,54 @@ namespace SpirVGraph.Spv
 
         public Enumerant Value { get; }
 
+<#
+		foreach (var kv in Values)
+		{
+			if (kv.parameters != null && kv.parameters.Count > 0)
+			{
+				bool addIndex = (kv.parameters.Count != 1);
+				var enName = GetId(kv.enumerant);
+				for (int i=0; i<kv.parameters.Count; ++i)
+				{
+				var paramName = enName; if (addIndex) paramName += (i+1);
+#>
+        public <#=Utils.GetTypeName(kv.parameters[i].kind) #> <#=paramName #> { get; set; }
+<#
+				}
+			}
+		}
+#>
+
+
         public static <#= Name #> Parse(WordReader reader, uint wordCount)
         {
+			var end = reader.Position+wordCount;
             var id = (Enumerant) reader.ReadWord();
             var value = new <#= Name #>(id);
+<#
+		foreach (var kv in Values)
+		{
+			if (kv.parameters != null && kv.parameters.Count > 0)
+			{
+				bool addIndex = (kv.parameters.Count != 1);
+				var enName = GetId(kv.enumerant);
+#>
+			if (Enumerant.<#=enName #> == (id & Enumerant.<#=enName #>))
+			{
+<#
+				for (int i=0; i<kv.parameters.Count; ++i)
+				{
+				var paramName = enName; if (addIndex) paramName += (i+1);
+#>
+				value.<#=paramName #> = Spv.<#=kv.parameters[i].kind #>.Parse(reader, wordCount - 1);
+<#
+				}
+#>
+			}
+<#
+			}
+		}
+#>
             value.PostParse(reader, wordCount - 1);
             return value;
         }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class SamplerFilterMode : ValueEnum
+    public partial class SamplerFilterMode : ValueEnum
     {
         public enum Enumerant
         {

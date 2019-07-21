@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class SourceLanguage : ValueEnum
+    public partial class SourceLanguage : ValueEnum
     {
         public enum Enumerant
         {

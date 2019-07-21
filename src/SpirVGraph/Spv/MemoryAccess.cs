@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class MemoryAccess : ValueEnum
+    public partial class MemoryAccess : ValueEnum
     {
 		[Flags]
         public enum Enumerant
@@ -21,10 +21,20 @@ namespace SpirVGraph.Spv
 
         public Enumerant Value { get; }
 
+        public uint Aligned { get; set; }
+
+
         public static MemoryAccess Parse(WordReader reader, uint wordCount)
         {
+			var end = reader.Position+wordCount;
             var id = (Enumerant) reader.ReadWord();
-			return new MemoryAccess(id);
+            var value = new MemoryAccess(id);
+			if (Enumerant.Aligned == (id & Enumerant.Aligned))
+			{
+				value.Aligned = Spv.LiteralInteger.Parse(reader, wordCount - 1);
+			}
+            value.PostParse(reader, wordCount - 1);
+            return value;
         }
 
         public static MemoryAccess ParseOptional(WordReader reader, uint wordCount)

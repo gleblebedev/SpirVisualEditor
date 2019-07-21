@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class MemorySemantics : ValueEnum
+    public partial class MemorySemantics : ValueEnum
     {
 		[Flags]
         public enum Enumerant
@@ -31,10 +31,15 @@ namespace SpirVGraph.Spv
 
         public Enumerant Value { get; }
 
+
+
         public static MemorySemantics Parse(WordReader reader, uint wordCount)
         {
+			var end = reader.Position+wordCount;
             var id = (Enumerant) reader.ReadWord();
-			return new MemorySemantics(id);
+            var value = new MemorySemantics(id);
+            value.PostParse(reader, wordCount - 1);
+            return value;
         }
 
         public static MemorySemantics ParseOptional(WordReader reader, uint wordCount)

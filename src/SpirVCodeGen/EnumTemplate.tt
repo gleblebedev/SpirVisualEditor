@@ -40,7 +40,7 @@ namespace SpirVGraph.Spv
 		foreach (var parameter in kv.parameters)
 		{
 #>
-            public <#= GetParameterType(parameter.kind) #> <#= GetName(GetId(kv.enumerant), parameter) #> { get; set; }
+            public <#= Utils.GetTypeName(parameter.kind) #> <#= GetName(GetId(kv.enumerant), parameter) #> { get; set; }
 <#
 		}
 #>

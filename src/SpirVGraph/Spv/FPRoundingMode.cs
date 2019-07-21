@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class FPRoundingMode : ValueEnum
+    public partial class FPRoundingMode : ValueEnum
     {
         public enum Enumerant
         {

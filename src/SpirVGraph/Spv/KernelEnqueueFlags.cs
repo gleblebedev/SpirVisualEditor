@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class KernelEnqueueFlags : ValueEnum
+    public partial class KernelEnqueueFlags : ValueEnum
     {
         public enum Enumerant
         {

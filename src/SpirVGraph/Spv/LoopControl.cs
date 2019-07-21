@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class LoopControl : ValueEnum
+    public partial class LoopControl : ValueEnum
     {
 		[Flags]
         public enum Enumerant
@@ -20,10 +20,15 @@ namespace SpirVGraph.Spv
 
         public Enumerant Value { get; }
 
+
+
         public static LoopControl Parse(WordReader reader, uint wordCount)
         {
+			var end = reader.Position+wordCount;
             var id = (Enumerant) reader.ReadWord();
-			return new LoopControl(id);
+            var value = new LoopControl(id);
+            value.PostParse(reader, wordCount - 1);
+            return value;
         }
 
         public static LoopControl ParseOptional(WordReader reader, uint wordCount)

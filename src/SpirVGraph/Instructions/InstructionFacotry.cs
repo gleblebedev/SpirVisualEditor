@@ -22,7 +22,7 @@ namespace SpirVGraph.Instructions
             instruction.Parse(reader, wordCount);
             if (reader.Position != end)
             {
-                throw new FormatException();
+                throw new FormatException("Error while parsing "+instruction+": the size of instruction "+wordCount+" doesn't match consumed size "+(int)(reader.Position-pos));
             }
 
             return instruction;

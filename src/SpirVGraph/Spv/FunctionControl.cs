@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class FunctionControl : ValueEnum
+    public partial class FunctionControl : ValueEnum
     {
 		[Flags]
         public enum Enumerant
@@ -22,10 +22,15 @@ namespace SpirVGraph.Spv
 
         public Enumerant Value { get; }
 
+
+
         public static FunctionControl Parse(WordReader reader, uint wordCount)
         {
+			var end = reader.Position+wordCount;
             var id = (Enumerant) reader.ReadWord();
-			return new FunctionControl(id);
+            var value = new FunctionControl(id);
+            value.PostParse(reader, wordCount - 1);
+            return value;
         }
 
         public static FunctionControl ParseOptional(WordReader reader, uint wordCount)

@@ -110,20 +110,6 @@ namespace SpirVCodeGen
             return Utils.GetPropertyName(parameter.name);
         }
 
-        public string GetParameterType(string kind)
-        {
-            switch (kind)
-            {
-                case "LiteralString":
-                    return "string";
-                case "LiteralInteger":
-                case "IdRef":
-                    return "uint";
-                default:
-                    return "Spv."+kind;
-            }
-        }
-
         public string GetId(string id)
         {
             if (char.IsDigit(id[0]))

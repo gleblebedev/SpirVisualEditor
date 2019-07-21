@@ -140,7 +140,7 @@ namespace SpirVCodeGen
             this.Write("            public ");
             
             #line 43 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\EnumTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(GetParameterType(parameter.kind)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Utils.GetTypeName(parameter.kind)));
             
             #line default
             #line hidden

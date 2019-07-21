@@ -839,9 +839,8 @@
         { "kind" : "IdRef",                             "name" : "'Image'" },
         { "kind" : "IdRef",                             "name" : "'Coordinate'" },
         { "kind" : "ImageOperands", "quantifier" : "?" }
-      { "kind" : "IdRef",                             "name" : "'Coordinate'" },
-  ]
-},
+      ]
+    },
     {
       "opname" : "OpImageGather",
       "opcode" : 96,

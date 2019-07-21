@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class LinkageType : ValueEnum
+    public partial class LinkageType : ValueEnum
     {
         public enum Enumerant
         {

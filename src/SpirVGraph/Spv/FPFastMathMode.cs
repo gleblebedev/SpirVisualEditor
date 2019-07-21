@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class FPFastMathMode : ValueEnum
+    public partial class FPFastMathMode : ValueEnum
     {
 		[Flags]
         public enum Enumerant
@@ -28,10 +28,15 @@ namespace SpirVGraph.Spv
 
         public Enumerant Value { get; }
 
+
+
         public static FPFastMathMode Parse(WordReader reader, uint wordCount)
         {
+			var end = reader.Position+wordCount;
             var id = (Enumerant) reader.ReadWord();
-			return new FPFastMathMode(id);
+            var value = new FPFastMathMode(id);
+            value.PostParse(reader, wordCount - 1);
+            return value;
         }
 
         public static FPFastMathMode ParseOptional(WordReader reader, uint wordCount)

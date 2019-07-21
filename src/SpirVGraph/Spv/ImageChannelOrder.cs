@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class ImageChannelOrder : ValueEnum
+    public partial class ImageChannelOrder : ValueEnum
     {
         public enum Enumerant
         {

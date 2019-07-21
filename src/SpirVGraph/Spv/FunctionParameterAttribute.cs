@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class FunctionParameterAttribute : ValueEnum
+    public partial class FunctionParameterAttribute : ValueEnum
     {
         public enum Enumerant
         {

@@ -29,12 +29,57 @@ namespace SpirVGraph.Spv
 
         public Enumerant Value { get; }
 
+        public Spv.IdRef Bias { get; set; }
+        public Spv.IdRef Lod { get; set; }
+        public Spv.IdRef Grad1 { get; set; }
+        public Spv.IdRef Grad2 { get; set; }
+        public Spv.IdRef ConstOffset { get; set; }
+        public Spv.IdRef Offset { get; set; }
+        public Spv.IdRef ConstOffsets { get; set; }
+        public Spv.IdRef Sample { get; set; }
+        public Spv.IdRef MinLod { get; set; }
+
+
         public static ImageOperands Parse(WordReader reader, uint wordCount)
         {
+			var end = reader.Position+wordCount;
             var id = (Enumerant) reader.ReadWord();
-            var imageOperands = new ImageOperands(id);
-            imageOperands.PostParse(reader, wordCount - 1);
-            return imageOperands;
+            var value = new ImageOperands(id);
+			if (Enumerant.Bias == (id & Enumerant.Bias))
+			{
+				value.Bias = Spv.IdRef.Parse(reader, wordCount - 1);
+			}
+			if (Enumerant.Lod == (id & Enumerant.Lod))
+			{
+				value.Lod = Spv.IdRef.Parse(reader, wordCount - 1);
+			}
+			if (Enumerant.Grad == (id & Enumerant.Grad))
+			{
+				value.Grad1 = Spv.IdRef.Parse(reader, wordCount - 1);
+				value.Grad2 = Spv.IdRef.Parse(reader, wordCount - 1);
+			}
+			if (Enumerant.ConstOffset == (id & Enumerant.ConstOffset))
+			{
+				value.ConstOffset = Spv.IdRef.Parse(reader, wordCount - 1);
+			}
+			if (Enumerant.Offset == (id & Enumerant.Offset))
+			{
+				value.Offset = Spv.IdRef.Parse(reader, wordCount - 1);
+			}
+			if (Enumerant.ConstOffsets == (id & Enumerant.ConstOffsets))
+			{
+				value.ConstOffsets = Spv.IdRef.Parse(reader, wordCount - 1);
+			}
+			if (Enumerant.Sample == (id & Enumerant.Sample))
+			{
+				value.Sample = Spv.IdRef.Parse(reader, wordCount - 1);
+			}
+			if (Enumerant.MinLod == (id & Enumerant.MinLod))
+			{
+				value.MinLod = Spv.IdRef.Parse(reader, wordCount - 1);
+			}
+            value.PostParse(reader, wordCount - 1);
+            return value;
         }
 
         public static ImageOperands ParseOptional(WordReader reader, uint wordCount)

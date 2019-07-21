@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using SpirVGraph.Instructions;
@@ -11,6 +13,51 @@ namespace SpirVGraph.Tests
     [TestFixture]
     public class ShaderTestFixture
     {
+        public static IEnumerable<string> GetEmbeddedShaders()
+        {
+            foreach (var name in typeof(ShaderTestFixture).Assembly.GetManifestResourceNames())
+            {
+                if (name.StartsWith("SpirVGraph.Tests.TestShaders"))
+                {
+                    yield return name;
+                }
+            }
+        }
+
+        [Test]
+        [TestCaseSource(nameof(GetEmbeddedShaders))]
+        public void LoadSampleShader(string resource)
+        {
+            string text = null;
+            using (var stream = this.GetType().Assembly.GetManifestResourceStream(resource))
+            {
+                text = new StreamReader(stream).ReadToEnd();
+            }
+
+            var stage = ShaderStages.Vertex;
+            if (resource.EndsWith(".comp"))
+                stage = ShaderStages.Compute;
+            if (resource.EndsWith(".vert"))
+                stage = ShaderStages.Vertex;
+            if (resource.EndsWith(".frag"))
+                stage = ShaderStages.Fragment;
+            SpirvCompilationResult res;
+            try
+            {
+                res = SpirvCompilation.CompileGlslToSpirv(text, resource, stage, GlslCompileOptions.Default);
+            }
+            catch (Exception ex)
+            {
+                Assert.Ignore(ex.Message);
+                return;
+            }
+
+            var shader = SpirVGraph.Shader.Parse(res.SpirvBytes);
+#if DEBUG
+            Console.WriteLine(shader);
+#endif
+        }
+
         [Test]
         public void DoubleConstant_ParsedCorrectly()
         {

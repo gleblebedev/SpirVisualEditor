@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class Decoration : ValueEnum
+    public partial class Decoration : ValueEnum
     {
         public enum Enumerant
         {
@@ -347,7 +347,7 @@ namespace SpirVGraph.Spv
         public class HlslCounterBufferGOOGLE: Decoration
         {
             public HlslCounterBufferGOOGLE():base(Enumerant.HlslCounterBufferGOOGLE){}
-            public IdRef CounterBuffer { get; set; }
+            public Spv.IdRef CounterBuffer { get; set; }
             public new static HlslCounterBufferGOOGLE Parse(WordReader reader, uint wordCount)
             {
 				var end = reader.Position+wordCount;

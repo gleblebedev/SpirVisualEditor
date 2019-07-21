@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class KernelProfilingInfo : ValueEnum
+    public partial class KernelProfilingInfo : ValueEnum
     {
 		[Flags]
         public enum Enumerant
@@ -20,10 +20,15 @@ namespace SpirVGraph.Spv
 
         public Enumerant Value { get; }
 
+
+
         public static KernelProfilingInfo Parse(WordReader reader, uint wordCount)
         {
+			var end = reader.Position+wordCount;
             var id = (Enumerant) reader.ReadWord();
-			return new KernelProfilingInfo(id);
+            var value = new KernelProfilingInfo(id);
+            value.PostParse(reader, wordCount - 1);
+            return value;
         }
 
         public static KernelProfilingInfo ParseOptional(WordReader reader, uint wordCount)

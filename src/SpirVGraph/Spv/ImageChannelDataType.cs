@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace SpirVGraph.Spv
 {
-    public class ImageChannelDataType : ValueEnum
+    public partial class ImageChannelDataType : ValueEnum
     {
         public enum Enumerant
         {
