@@ -170,7 +170,7 @@ namespace SpirVCodeGen
             _instruction = instruction;
         }
     }
-    public partial class NodeFactoryTemplate : NodeFactoryTemplateBase
+    public partial class InstructionSerializerTemplate : InstructionSerializerTemplateBase
     {
         private readonly Instruction _instruction;
         public string opname
@@ -184,7 +184,7 @@ namespace SpirVCodeGen
             get => _instruction.operands ?? EmptyReadOnlyList<Operand>.Instance;
         }
 
-        public NodeFactoryTemplate(Instruction instruction)
+        public InstructionSerializerTemplate(Instruction instruction)
         {
             _instruction = instruction;
         }

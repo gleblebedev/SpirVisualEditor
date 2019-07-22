@@ -134,11 +134,11 @@ namespace SpirVCodeGen
 
         [Test]
         [TestCaseSource(nameof(GetInstructions))]
-        public void GenerateInstructionNodeFactoryFile(SpirVCodeGen.Model.Instruction instruction)
+        public void InstructionSerializerTemplate(SpirVCodeGen.Model.Instruction instruction)
         {
             var path = Path.Combine(Path.GetDirectoryName(this.GetType().Assembly.Location),
-                @"..\..\..\..\SpirVGraph\NodeFactories\" + instruction.opname + "NodeFactory.cs");
-            var text = new NodeFactoryTemplate(instruction).TransformText();
+                @"..\..\..\..\SpirVGraph\Serializers\" + instruction.opname + "Serializer.cs");
+            var text = new InstructionSerializerTemplate(instruction).TransformText();
             using (var file = File.CreateText(path))
             {
                 file.Write(text);

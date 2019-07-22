@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SpirVGraph.Instructions;
 using Toe.Scripting;
 
 namespace SpirVGraph.NodeFactories

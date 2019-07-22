@@ -8,7 +8,7 @@ namespace SpirVGraph
     {
         public static Script Deserialize(byte[] spirvBytes)
         {
-            return new Deserializer(Shader.Parse(spirvBytes), new SpvNodeRegistry()).Deserialize();
+            return new Deserializer(Shader.Parse(spirvBytes)).Deserialize();
         }
 
         public static byte[] Serialize(Script script)

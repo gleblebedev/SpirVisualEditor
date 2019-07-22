@@ -18,9 +18,9 @@ namespace SpirVCodeGen
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\NodeFactoryTemplate.tt"
+    #line 1 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionSerializerTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public partial class NodeFactoryTemplate : NodeFactoryTemplateBase
+    public partial class InstructionSerializerTemplate : InstructionSerializerTemplateBase
     {
 #line hidden
         /// <summary>
@@ -28,86 +28,40 @@ namespace SpirVCodeGen
         /// </summary>
         public virtual string TransformText()
         {
+            this.Write("using System.Collections.Generic;\r\nusing SpirVGraph.Instructions;\r\nusing SpirVGra" +
+                    "ph.Spv;\r\n\r\n");
             
-            #line 6 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\NodeFactoryTemplate.tt"
+            #line 10 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionSerializerTemplate.tt"
 
-var idResult = operands.FirstOrDefault(_=>_.kind == "IdResult");
-var idResultType = operands.FirstOrDefault(_=>_.kind == "IdResultType");
+	var idResult = operands.FirstOrDefault(_=>_.kind == "IdResult");
+	var idResultType = operands.FirstOrDefault(_=>_.kind == "IdResultType");
+	var isFunction = idResult!=null && idResultType!=null;
 
             
             #line default
             #line hidden
-            this.Write("using Toe.Scripting;\r\n\r\nnamespace SpirVGraph.NodeFactories\r\n{\r\n    public class ");
+            this.Write("\r\nnamespace SpirVGraph.Serializers\r\n{\r\n    public partial class ");
             
-            #line 14 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\NodeFactoryTemplate.tt"
+            #line 18 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionSerializerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(opname));
             
             #line default
             #line hidden
-            this.Write("NodeFactory : AbstractNodeFactory\r\n    {\r\n        public static readonly ");
+            this.Write("Serializer: ");
             
-            #line 16 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\NodeFactoryTemplate.tt"
+            #line 18 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionSerializerTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(isFunction ? "FunctionSerializer" : "ProcedureSerializer"));
+            
+            #line default
+            #line hidden
+            this.Write("<");
+            
+            #line 18 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionSerializerTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(opname));
             
             #line default
             #line hidden
-            this.Write("NodeFactory Instance = new ");
-            
-            #line 16 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\NodeFactoryTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(opname));
-            
-            #line default
-            #line hidden
-            this.Write("NodeFactory();\r\n\r\n        public ");
-            
-            #line 18 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\NodeFactoryTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(opname));
-            
-            #line default
-            #line hidden
-            this.Write("NodeFactory():base(new ScriptNode()\r\n        {\r\n            Name = \"");
-            
-            #line 20 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\NodeFactoryTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(opname.Substring(2)));
-            
-            #line default
-            #line hidden
-            this.Write("\",\r\n            Category = NodeCategory.Function,\r\n            Type = \"");
-            
-            #line 22 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\NodeFactoryTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(opname));
-            
-            #line default
-            #line hidden
-            this.Write("\",\r\n            InputPins =\r\n            {\r\n");
-            
-            #line 25 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\NodeFactoryTemplate.tt"
-
-foreach (var op in operands)
-{
-	if (op.kind == "IdRef")
-	{
-		WriteLine("                new PinWithConnection(\""+Utils.GetOperandName(op)+"\",null),");
-	}
-}
-
-            
-            #line default
-            #line hidden
-            this.Write("            },\r\n            OutputPins =\r\n            {\r\n");
-            
-            #line 37 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\NodeFactoryTemplate.tt"
-
-if (idResult != null)
-{
-WriteLine("                new Pin(\"out\",null),");
-}
-
-            
-            #line default
-            #line hidden
-            this.Write("            }\r\n        }, NodeFactoryVisibility.Visible)\r\n        {\r\n        }\r\n " +
-                    "   }\r\n}");
+            this.Write(">\r\n    {\r\n\t}\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -119,7 +73,7 @@ WriteLine("                new Pin(\"out\",null),");
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
-    public class NodeFactoryTemplateBase
+    public class InstructionSerializerTemplateBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

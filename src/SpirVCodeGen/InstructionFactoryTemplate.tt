@@ -10,6 +10,20 @@ namespace SpirVGraph.Instructions
 {
     public static class InstructionFactory
     {
+		private static readonly Func<Instruction>[] _factories;
+
+		static InstructionFactory()
+		{
+			_factories = new Func<Instruction>[<#= Instructions.Select(_=>_.opcode).Max()+1 #>];
+<#
+foreach (var i in Instructions)
+{
+#>
+			_factories[(int)Op.<#=i.opname #>] = ()=>new <#=i.opname #>();
+<#
+}
+#>
+		}
 
 	    public static Instruction Parse(WordReader reader)
         {
@@ -30,18 +44,10 @@ namespace SpirVGraph.Instructions
 
         public static Instruction Create(Op op)
 		{
-			switch (op)
-			{
-<#
-foreach (var i in Instructions)
-{
-#>
-				case Op.<#=i.opname #>: return new <#=i.opname #>();
-<#
-}
-#>
-			}
-			throw new NotImplementedException();
+            var factory = _factories[(int) op];
+            if (factory != null)
+                return factory();
+            throw new NotImplementedException("Factory isn't implemented for "+op);
 		}
     }
 }

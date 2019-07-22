@@ -38,6 +38,10 @@
       <LastGenOutput>InstructionFactoryTemplate.cs</LastGenOutput>
       <Generator>TextTemplatingFilePreprocessor</Generator>
     </None>
+    <None Update="InstructionSerializerTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>InstructionSerializerTemplate.cs</LastGenOutput>
+    </None>
     <None Update="InstructionTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>InstructionTemplate.cs</LastGenOutput>
@@ -45,10 +49,6 @@
     <None Update="LiteralTemplate.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>LiteralTemplate.cs</LastGenOutput>
-    </None>
-    <None Update="NodeFactoryTemplate.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>NodeFactoryTemplate.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
@@ -82,6 +82,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>InstructionFactoryTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Update="InstructionSerializerTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InstructionSerializerTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Update="InstructionTemplate.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -91,11 +96,6 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>LiteralTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="NodeFactoryTemplate.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>NodeFactoryTemplate.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

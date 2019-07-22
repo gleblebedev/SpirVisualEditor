@@ -35,6 +35,51 @@ namespace SpirVGraph.Instructions
 {
     public static class InstructionFactory
     {
+		private static readonly Func<Instruction>[] _factories;
+
+		static InstructionFactory()
+		{
+			_factories = new Func<Instruction>[");
+            
+            #line 17 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionFactoryTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Instructions.Select(_=>_.opcode).Max()+1));
+            
+            #line default
+            #line hidden
+            this.Write("];\r\n");
+            
+            #line 18 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionFactoryTemplate.tt"
+
+foreach (var i in Instructions)
+{
+
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\t_factories[(int)Op.");
+            
+            #line 22 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionFactoryTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(i.opname));
+            
+            #line default
+            #line hidden
+            this.Write("] = ()=>new ");
+            
+            #line 22 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionFactoryTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(i.opname));
+            
+            #line default
+            #line hidden
+            this.Write("();\r\n");
+            
+            #line 23 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionFactoryTemplate.tt"
+
+}
+
+            
+            #line default
+            #line hidden
+            this.Write(@"		}
 
 	    public static Instruction Parse(WordReader reader)
         {
@@ -55,42 +100,13 @@ namespace SpirVGraph.Instructions
 
         public static Instruction Create(Op op)
 		{
-			switch (op)
-			{
-");
-            
-            #line 35 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionFactoryTemplate.tt"
-
-foreach (var i in Instructions)
-{
-
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\t\tcase Op.");
-            
-            #line 39 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionFactoryTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(i.opname));
-            
-            #line default
-            #line hidden
-            this.Write(": return new ");
-            
-            #line 39 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionFactoryTemplate.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(i.opname));
-            
-            #line default
-            #line hidden
-            this.Write("();\r\n");
-            
-            #line 40 "E:\MyWork\SpirVisualEditor\src\SpirVCodeGen\InstructionFactoryTemplate.tt"
-
-}
-
-            
-            #line default
-            #line hidden
-            this.Write("\t\t\t}\r\n\t\t\tthrow new NotImplementedException();\r\n\t\t}\r\n    }\r\n}");
+            var factory = _factories[(int) op];
+            if (factory != null)
+                return factory();
+            throw new NotImplementedException(""Factory isn't implemented for ""+op);
+		}
+    }
+}");
             return this.GenerationEnvironment.ToString();
         }
     }
